@@ -47,7 +47,7 @@ const parser = new Parser({
 })
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 const UFL_FIXTURE_CHECK_INTERVAL = 5 * 60 * 1000
 const FIXTURES_FILE = new URL("./fixtures.json", import.meta.url)
 
