@@ -1,0 +1,136 @@
+.admin-auth-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: #090d16;
+  color: #f5f7fc;
+}
+
+.admin-auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+  border: 1px solid #293247;
+  border-radius: 16px;
+  background: #111827;
+}
+
+.admin-auth-brand {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 35px;
+}
+
+.admin-auth-brand span:last-child {
+  color: #e53945;
+}
+
+.admin-auth-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  background: #e53945;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.admin-auth-label {
+  color: #e53945;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.admin-auth-card h1 {
+  font-size: 32px;
+  margin: 10px 0;
+}
+
+.admin-auth-description {
+  color: #aab3c5;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.admin-auth-card label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.admin-auth-card input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #354157;
+  border-radius: 8px;
+  background: #090d16;
+  color: white;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.admin-auth-card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #e53945;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-auth-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-auth-error {
+  color: #ff7070;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.admin-auth-footer {
+  color: #78849a;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 35px;
+  letter-spacing: 1px;
+}
+
+.admin-ufl-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: #111827;
+  border-bottom: 1px solid #293247;
+  color: #aab3c5;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-ufl-toolbar button {
+  padding: 9px 18px;
+  border: 1px solid #e53945;
+  border-radius: 6px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-online-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34c77b;
+  margin-right: 8px;
+}

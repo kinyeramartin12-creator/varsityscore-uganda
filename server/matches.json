@@ -1,0 +1,576 @@
+[
+  {
+    "id": "ufl-1793131071024-0",
+    "homeTeam": "YMCA Comprehensive Institute",
+    "awayTeam": "Seeta University",
+    "homeScore": 0,
+    "awayScore": 0,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-27",
+    "kickoffTime": "",
+    "events": [],
+    "goals": [],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2115094314950828419",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://nbssport.co.ug/article/ymca-held-by-seeta-university-in-goalless-ufl-opener"
+  },
+  {
+    "id": "ufl-1793131097964-1",
+    "homeTeam": "Ndejje University",
+    "awayTeam": "Gulu University",
+    "homeScore": 0,
+    "awayScore": 1,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-26",
+    "kickoffTime": "",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2114720147776696400-0",
+        "team": "GuluVarsity",
+        "scorer": "Rubagakane Atube",
+        "minute": 15,
+        "type": "NORMAL",
+        "assist": "Jackson Otim Rubagakane’s"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2114720147776696400",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://kawowo.com/2026/10/26/2026-27-ufl-rubagakene-on-target-as-gulu-university-wins-on-the-road-away-at-ndejje-university/"
+  },
+  {
+    "id": "ufl-1793131097964-2",
+    "homeTeam": "Lira University",
+    "awayTeam": "Kyambogo University",
+    "homeScore": 2,
+    "awayScore": 1,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-25",
+    "kickoffTime": "",
+    "events": [
+      "Solomon Okello scored Lira University's late winning goal; the report does not specify the exact minute."
+    ],
+    "goals": [
+      {
+        "id": "repair-2026-10-25-0",
+        "scorer": "Ramathan Matovu",
+        "team": "Kyambogo University",
+        "minute": 18,
+        "type": "NORMAL"
+      },
+      {
+        "id": "repair-2026-10-25-1",
+        "scorer": "Emmanuel Ogeng",
+        "team": "Lira University",
+        "minute": 20,
+        "type": "NORMAL"
+      },
+      {
+        "id": "repair-2026-10-25-goal-3",
+        "team": "Lira University",
+        "scorer": "Solomon Okello",
+        "minute": null,
+        "type": "GOAL"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2114364231260794910",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://kawowo.com/2026/10/25/2026-27-ufl-lira-university-rallies-from-a-goal-down-to-defeat-kyambogo-university/"
+  },
+  {
+    "id": "ufl-1793131097964-3",
+    "homeTeam": "Soroti University",
+    "awayTeam": "King Ceasor University",
+    "homeScore": 0,
+    "awayScore": 2,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-24",
+    "kickoffTime": "",
+    "events": [],
+    "goals": [
+      {
+        "id": "repair-2026-10-24-0",
+        "scorer": "Devis Kayondo",
+        "team": "King Ceasor University",
+        "minute": 25,
+        "type": "NORMAL"
+      },
+      {
+        "id": "repair-2026-10-24-1",
+        "scorer": "Shedrack Mugisha",
+        "team": "King Ceasor University",
+        "minute": 59,
+        "type": "DIRECT_FREE_KICK"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2113997775234904356",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://kawowo.com/2026/10/24/2026-27-ufl-king-ceasor-university-register-victory-on-the-road-at-soroti-university/"
+  },
+  {
+    "id": "ufl-1793305977410-0",
+    "homeTeam": "Africa Renewal University",
+    "awayTeam": "Muni University",
+    "homeScore": 2,
+    "awayScore": 0,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-29",
+    "kickoffTime": "",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2115812323289907643-0",
+        "team": "AfRUniversity",
+        "scorer": "Bazanye Jimmy",
+        "minute": 34,
+        "type": "PENALTY"
+      },
+      {
+        "id": "ufl-goal-2115812323289907643-1",
+        "team": "AfRUniversity",
+        "scorer": "Kakaire Juma",
+        "minute": 89,
+        "type": "PENALTY",
+        "assist": "Mayinja Dirisa Penalty"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2115812323289907643",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://x.com/uflug/status/2115812323289907643"
+  },
+  {
+    "id": "ufl-1793305977410-1",
+    "homeTeam": "Kampala International University",
+    "awayTeam": "ISBAT University",
+    "homeScore": 0,
+    "awayScore": 0,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-28",
+    "kickoffTime": "",
+    "events": [],
+    "goals": [],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2115449549338644539",
+    "sourceType": "OFFICIAL_UFL",
+    "competition": "Pepsi University Football League",
+    "reportSource": "https://gabaroadchronicle.wordpress.com/2026/10/29/kiu-isbat-share-spoils-in-goalless-pepsi-university-football-league-draw/"
+  },
+  {
+    "id": "ufl-history-2026-10-22-muteesa-bugema",
+    "date": "2026-10-22",
+    "homeTeam": "Bugema University",
+    "awayTeam": "Muteesa I Royal University",
+    "homeScore": 0,
+    "awayScore": 3,
+    "officialSource": "https://voiceofbugerere.com/pepsi-ufl-post-nyanzi-meddie-cry-begins-at-bugema-as-tony-mawejjes-royal-lions-send-a-strong-warning/",
+    "status": "FINISHED",
+    "minute": 90,
+    "kickoffTime": "",
+    "competition": "Pepsi University Football League",
+    "events": [],
+    "goals": [
+      {
+        "id": "repair-2026-10-22-0",
+        "scorer": "Shabir Lubega",
+        "team": "Muteesa I Royal University",
+        "minute": 45,
+        "type": "NORMAL",
+        "assist": "Ivan Ochan"
+      },
+      {
+        "id": "repair-2026-10-22-1",
+        "scorer": "Erick Katende",
+        "team": "Muteesa I Royal University",
+        "minute": 50,
+        "type": "NORMAL"
+      },
+      {
+        "id": "repair-2026-10-22-2",
+        "scorer": "Sam Mutambo",
+        "team": "Muteesa I Royal University",
+        "minute": 60,
+        "type": "NORMAL"
+      }
+    ],
+    "cards": [],
+    "sourceType": "HISTORICAL_BACKFILL",
+    "reportSource": "https://kawowo.com/2026/10/22/muteesa-1-royal-university-defeats-bugema-university-in-2026-27-ufl-opener/"
+  },
+  {
+    "id": "ufl-history-2026-10-23-wmfu-mubs",
+    "date": "2026-10-23",
+    "homeTeam": "World Mission Frontiers University",
+    "awayTeam": "Makerere University Business School",
+    "homeScore": 0,
+    "awayScore": 1,
+    "officialSource": "https://kawowo.com/2026/10/23/10-man-mubs-edge-debutants-university-of-world-mission-frontier-2026-27-ufl/",
+    "status": "FINISHED",
+    "minute": 90,
+    "kickoffTime": "",
+    "competition": "Pepsi University Football League",
+    "events": [
+      "MUBS player Talib Yokole was sent off; the report does not specify the minute."
+    ],
+    "goals": [
+      {
+        "id": "repair-2026-10-23-0",
+        "scorer": "Joe Worrick Mbabazi",
+        "team": "Makerere University Business School",
+        "minute": 77,
+        "type": "NORMAL",
+        "assist": "Andrew Ssempijja"
+      }
+    ],
+    "cards": [
+      {
+        "id": "repair-2026-10-23-card-1",
+        "player": "Talib Yokole",
+        "team": "Makerere University Business School",
+        "type": "RED",
+        "minute": null
+      }
+    ],
+    "sourceType": "HISTORICAL_BACKFILL",
+    "reportSource": "https://kawowo.com/2026/10/23/10-man-mubs-edge-debutants-university-of-world-mission-frontier-2026-27-ufl/"
+  },
+  {
+    "id": "ufl-2116175611878117718",
+    "homeTeam": "ku_original",
+    "awayTeam": "UnivKisubi",
+    "homeScore": 1,
+    "awayScore": 1,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-10-30",
+    "kickoffTime": "",
+    "competition": "Pepsi UFL",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2116175611878117718-0",
+        "team": "UnivKisubi",
+        "scorer": "Bakitawale Joel",
+        "minute": 32,
+        "type": "NORMAL",
+        "assist": "Najib Male"
+      },
+      {
+        "id": "ufl-goal-2116175611878117718-1",
+        "team": "ku_original",
+        "scorer": "Ssekitoleko Rayan",
+        "minute": 47,
+        "type": "NORMAL",
+        "assist": "Kiweewa Reymond Honours"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2116175611878117718",
+    "sourceType": "OFFICIAL_UFL"
+  },
+  {
+    "id": "ufl-fixture-2116415596149543153",
+    "valid": true,
+    "homeTeam": "Uganda Martyrs University",
+    "awayTeam": "Kumi University",
+    "date": "2026-10-31",
+    "kickoffTime": "",
+    "competition": "Pepsi University Football League",
+    "status": "FINISHED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2116533354904293639",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HV8EwuNWIAA-aul.jpg?name=orig",
+    "announcedAt": "2026-10-31T06:22:53.000Z",
+    "homeScore": 2,
+    "awayScore": 0,
+    "minute": 90,
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2116533354904293639-0",
+        "team": "umu_nkozi",
+        "scorer": "Okumu Godfrey",
+        "minute": 37,
+        "type": "NORMAL"
+      },
+      {
+        "id": "ufl-goal-2116533354904293639-1",
+        "team": "umu_nkozi",
+        "scorer": "Ogwang Francis",
+        "minute": 55,
+        "type": "NORMAL"
+      }
+    ],
+    "cards": [],
+    "fixtureId": "ufl-fixture-2116415596149543153"
+  },
+  {
+    "id": "ufl-2116896378601210035",
+    "homeTeam": "kabuniversity",
+    "awayTeam": "NkumbaUni",
+    "homeScore": 2,
+    "awayScore": 0,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-11-01",
+    "kickoffTime": "",
+    "competition": "Pepsi UFL",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2116896378601210035-0",
+        "team": "kabuniversity",
+        "scorer": "Wazilu Sekaga",
+        "minute": 11,
+        "type": "NORMAL"
+      },
+      {
+        "id": "ufl-goal-2116896378601210035-1",
+        "team": "kabuniversity",
+        "scorer": "Byrahunga Owen",
+        "minute": 35,
+        "type": "NORMAL",
+        "assist": "Tayebwa Paddy Sekaga"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2116896378601210035",
+    "sourceType": "OFFICIAL_UFL"
+  },
+  {
+    "id": "ufl-fixture-2117167706591957080",
+    "valid": true,
+    "homeTeam": "Mountains Of The Moon University",
+    "awayTeam": "St. Lawrence University",
+    "date": "2026-11-02",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "FINISHED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2117277429525807184",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWGwzl8XgAAwVs8.jpg?name=orig",
+    "announcedAt": "2026-11-02T08:11:30.000Z",
+    "fixtureId": "ufl-fixture-2117167706591957080",
+    "homeScore": 0,
+    "awayScore": 1,
+    "minute": 90,
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2117277429525807184-0",
+        "team": "StLawrenceUniv",
+        "scorer": "Oceng Jasper",
+        "minute": 2,
+        "type": "NORMAL",
+        "assist": "Collins Ssemanda Jasper"
+      }
+    ],
+    "cards": [],
+    "clockBaseMinute": 90,
+    "clockStartedAt": "2026-11-02T15:24:43.000Z",
+    "clockPausedAt": null
+  },
+  {
+    "id": "ufl-2117623434255483355",
+    "homeTeam": "iuea_uganda",
+    "awayTeam": "BishopStuartUni",
+    "homeScore": 2,
+    "awayScore": 1,
+    "status": "FINISHED",
+    "minute": 90,
+    "date": "2026-11-03",
+    "kickoffTime": "",
+    "competition": "Pepsi UFL",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2117623434255483355-0",
+        "team": "iuea_uganda",
+        "scorer": "Mubiru Paul",
+        "minute": 2,
+        "type": "NORMAL",
+        "assist": "Primo Iwroth"
+      },
+      {
+        "id": "ufl-goal-2117623434255483355-1",
+        "team": "iuea_uganda",
+        "scorer": "Miod Aksam",
+        "minute": 85,
+        "type": "NORMAL",
+        "assist": "Mutalya Gift Fred"
+      },
+      {
+        "id": "ufl-goal-2117623434255483355-2",
+        "team": null,
+        "scorer": "Sabiiti Vianey",
+        "minute": 87,
+        "type": "NORMAL",
+        "assist": "Ahumuza Gilbert Mubiru"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2117623434255483355",
+    "sourceType": "OFFICIAL_UFL"
+  },
+  {
+    "id": "ufl-live-2117953775939830268",
+    "homeTeam": "Uganda Christian University",
+    "awayTeam": "Busitema University",
+    "homeScore": 3,
+    "awayScore": 0,
+    "status": "FINISHED",
+    "minute": 88,
+    "clockBaseMinute": 88,
+    "clockStartedAt": "2026-11-04T14:00:01.000Z",
+    "clockPausedAt": null,
+    "date": "2026-11-04",
+    "kickoffTime": "",
+    "competition": "Pepsi University Football League",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2117982324658704805-0",
+        "team": "UCUniversity",
+        "scorer": "Owor Chrysostom",
+        "minute": 14,
+        "type": "NORMAL",
+        "assist": "Ivan Kisemabo"
+      },
+      {
+        "id": "ufl-goal-2117982324658704805-1",
+        "team": "UCUniversity",
+        "scorer": "Wadawa Bashir",
+        "minute": 17,
+        "type": "NORMAL",
+        "assistManuallyRemoved": true
+      },
+      {
+        "id": "ufl-goal-2117982324658704805-2",
+        "team": "UCUniversity",
+        "scorer": "Kitiibwa Alvin",
+        "minute": 70,
+        "type": "PENALTY"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2117982324658704805",
+    "sourceType": "OFFICIAL_UFL"
+  },
+  {
+    "id": "ufl-fixture-2118195501384265788",
+    "valid": true,
+    "homeTeam": "metropolitaninternationaluniversity",
+    "awayTeam": "islamicuniversityinuganda",
+    "date": "2026-11-05",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "FINISHED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2118342579733316008",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWVXjo9WUAAt8ox.jpg?name=orig",
+    "announcedAt": "2026-11-05T04:15:36.000Z",
+    "fixtureId": "ufl-fixture-2118195501384265788",
+    "homeScore": 0,
+    "awayScore": 1,
+    "minute": 90,
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2118342579733316008-0",
+        "team": "iuiuac",
+        "scorer": "Waisana Eric",
+        "minute": 47,
+        "type": "NORMAL"
+      }
+    ],
+    "cards": [],
+    "clockBaseMinute": 90,
+    "clockStartedAt": "2026-11-05T13:52:44.000Z",
+    "clockPausedAt": null
+  },
+  {
+    "id": "ufl-live-2118673649112612951",
+    "homeTeam": "Isbat University",
+    "awayTeam": "Bugema University",
+    "homeScore": 2,
+    "awayScore": 1,
+    "status": "FINISHED",
+    "minute": 90,
+    "clockBaseMinute": 90,
+    "clockStartedAt": "2026-11-06T13:42:05.000Z",
+    "clockPausedAt": null,
+    "date": "2026-11-06",
+    "kickoffTime": "",
+    "competition": "Pepsi University Football League",
+    "events": [],
+    "goals": [
+      {
+        "id": "ufl-goal-2118704511770382445-0",
+        "team": "isbatkampala",
+        "scorer": "Kizito John Paul",
+        "minute": 1,
+        "type": "NORMAL",
+        "assist": "Ledule Simon"
+      },
+      {
+        "id": "ufl-goal-2118704511770382445-1",
+        "team": "isbatkampala",
+        "scorer": "Andeku Abdurahman",
+        "minute": 15,
+        "type": "NORMAL",
+        "assist": "Balidawa Dan"
+      },
+      {
+        "id": "ufl-goal-2118704511770382445-2",
+        "team": "UnivBugema",
+        "scorer": "Tuhimbisbwe Innocent",
+        "minute": 70,
+        "type": "NORMAL",
+        "assist": "Mwandah Jonah City"
+      }
+    ],
+    "cards": [],
+    "officialSource": "https://x.com/uflug/status/2118704511770382445",
+    "sourceType": "OFFICIAL_UFL"
+  },
+  {
+    "id": "ufl-fixture-2119005538272809177",
+    "valid": true,
+    "homeTeam": "worldmissionfrontiersuniversity",
+    "awayTeam": "sorotiuniversity",
+    "date": "2026-11-07",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "SCHEDULED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2119005538272809177",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWg4S8vWIAAdXx3.jpg?name=orig",
+    "announcedAt": "2026-11-07T09:54:24.000Z",
+    "fixtureId": "ufl-fixture-2119005538272809177",
+    "homeScore": 0,
+    "awayScore": 0,
+    "minute": 0,
+    "events": [],
+    "goals": [],
+    "cards": []
+  }
+]

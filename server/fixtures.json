@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ufl-fixture-2116415596149543153",
+    "valid": true,
+    "homeTeam": "Uganda Martyrs University",
+    "awayTeam": "Kumi University",
+    "date": "2026-10-31",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "SCHEDULED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2116415596149543153",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HV8EwuNWIAA-aul.jpg?name=orig",
+    "announcedAt": "2026-10-31T06:22:53.000Z"
+  },
+  {
+    "id": "ufl-fixture-2117167706591957080",
+    "valid": true,
+    "homeTeam": "Mountains Of The Moon University",
+    "awayTeam": "St. Lawrence University",
+    "date": "2026-11-02",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "SCHEDULED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2117167706591957080",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWGwzl8XgAAwVs8.jpg?name=orig",
+    "announcedAt": "2026-11-02T08:11:30.000Z"
+  },
+  {
+    "id": "ufl-fixture-2118195501384265788",
+    "valid": true,
+    "homeTeam": "metropolitaninternationaluniversity",
+    "awayTeam": "islamicuniversityinuganda",
+    "date": "2026-11-05",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "SCHEDULED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2118195501384265788",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWVXjo9WUAAt8ox.jpg?name=orig",
+    "announcedAt": "2026-11-05T04:15:36.000Z"
+  },
+  {
+    "id": "ufl-fixture-2119005538272809177",
+    "valid": true,
+    "homeTeam": "worldmissionfrontiersuniversity",
+    "awayTeam": "sorotiuniversity",
+    "date": "2026-11-07",
+    "kickoffTime": "15:00",
+    "competition": "Pepsi University Football League",
+    "status": "SCHEDULED",
+    "source": "OFFICIAL UFL",
+    "officialSource": "https://x.com/uflug/status/2119005538272809177",
+    "sourceType": "OFFICIAL_UFL",
+    "imageUrl": "https://pbs.twimg.com/media/HWg4S8vWIAAdXx3.jpg?name=orig",
+    "announcedAt": "2026-11-07T09:54:24.000Z"
+  }
+]

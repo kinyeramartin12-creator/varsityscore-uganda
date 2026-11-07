@@ -1,0 +1,1839 @@
+{
+  "season": "2026/27",
+  "competition": "Pepsi University Football League",
+  "source": "2026-27 UFL Team Pairings.pdf",
+  "note": "Each university has six team-specific fixtures. A match appears in both participating universities’ schedules; this is intentional.",
+  "teamCount": 31,
+  "teamFixtureEntryCount": 186,
+  "teams": [
+    {
+      "name": "Africa Renewal University",
+      "fixtures": [
+        {
+          "opponent": "Lira University",
+          "venue": "Home",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Muni University",
+          "venue": "Home",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Home",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Seeta University",
+          "venue": "Away",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Away",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Away",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "Bishop Stuart University",
+      "fixtures": [
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Home",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Home",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Bugema University",
+          "venue": "Home",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Away",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Kabale University",
+          "venue": "Away",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Away",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "Bugema University",
+      "fixtures": [
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Home",
+          "homeTeam": "Bugema University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Home",
+          "homeTeam": "Bugema University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Home",
+          "homeTeam": "Bugema University",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Makerere University",
+          "venue": "Away",
+          "homeTeam": "Makerere University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Away",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Away",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "Busitema University",
+      "fixtures": [
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Home",
+          "homeTeam": "Busitema University",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Soroti University",
+          "venue": "Home",
+          "homeTeam": "Busitema University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Home",
+          "homeTeam": "Busitema University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Away",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Away",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Away",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "Gulu University",
+      "fixtures": [
+        {
+          "opponent": "Seeta University",
+          "venue": "Home",
+          "homeTeam": "Gulu University",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Home",
+          "homeTeam": "Gulu University",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Home",
+          "homeTeam": "Gulu University",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Away",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Muni University",
+          "venue": "Away",
+          "homeTeam": "Muni University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Away",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "International University of East Africa (IUEA)",
+      "fixtures": [
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Home",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Home",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Home",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Away",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Bugema University",
+          "venue": "Away",
+          "homeTeam": "Bugema University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Away",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 1
+        }
+      ]
+    },
+    {
+      "name": "ISBAT University",
+      "fixtures": [
+        {
+          "opponent": "Bugema University",
+          "venue": "Home",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Home",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Home",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Away",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Nkumba University",
+          "venue": "Away",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Makerere University",
+          "venue": "Away",
+          "homeTeam": "Makerere University",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "Islamic University in Uganda (IUIU)",
+      "fixtures": [
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Home",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Home",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Home",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Kumi University",
+          "venue": "Away",
+          "homeTeam": "Kumi University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Busitema University",
+          "venue": "Away",
+          "homeTeam": "Busitema University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Away",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "Kabale University",
+      "fixtures": [
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Home",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Makerere University",
+          "venue": "Home",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Nkumba University",
+          "venue": "Home",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Away",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Away",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Away",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "Kampala International University (KIU)",
+      "fixtures": [
+        {
+          "opponent": "Nkumba University",
+          "venue": "Home",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Home",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Makerere University",
+          "venue": "Home",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Away",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Away",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Bugema University",
+          "venue": "Away",
+          "homeTeam": "Bugema University",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "Kampala University (KU)",
+      "fixtures": [
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Home",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Home",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Home",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Away",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Muni University",
+          "venue": "Away",
+          "homeTeam": "Muni University",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Lira University",
+          "venue": "Away",
+          "homeTeam": "Lira University",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "King Ceasor University",
+      "fixtures": [
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Home",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Home",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Home",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Busitema University",
+          "venue": "Away",
+          "homeTeam": "Busitema University",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Soroti University",
+          "venue": "Away",
+          "homeTeam": "Soroti University",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        },
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Away",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 2
+        }
+      ]
+    },
+    {
+      "name": "Kumi University",
+      "fixtures": [
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Home",
+          "homeTeam": "Kumi University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Home",
+          "homeTeam": "Kumi University",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Home",
+          "homeTeam": "Kumi University",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Soroti University",
+          "venue": "Away",
+          "homeTeam": "Soroti University",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Away",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Away",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Kyambogo University",
+      "fixtures": [
+        {
+          "opponent": "Gulu University",
+          "venue": "Home",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Home",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Home",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Away",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Seeta University",
+          "venue": "Away",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Lira University",
+          "venue": "Away",
+          "homeTeam": "Lira University",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Lira University",
+      "fixtures": [
+        {
+          "opponent": "Seeta University",
+          "venue": "Home",
+          "homeTeam": "Lira University",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Home",
+          "homeTeam": "Lira University",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Home",
+          "homeTeam": "Lira University",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Away",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Away",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Away",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Makerere University",
+      "fixtures": [
+        {
+          "opponent": "Bugema University",
+          "venue": "Home",
+          "homeTeam": "Makerere University",
+          "awayTeam": "Bugema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Home",
+          "homeTeam": "Makerere University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Home",
+          "homeTeam": "Makerere University",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Nkumba University",
+          "venue": "Away",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kabale University",
+          "venue": "Away",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Away",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Makerere University Business School (MUBS)",
+      "fixtures": [
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Home",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Kumi University",
+          "venue": "Home",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Busitema University",
+          "venue": "Home",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Away",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Away",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Away",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Metropolitan International University",
+      "fixtures": [
+        {
+          "opponent": "Busitema University",
+          "venue": "Home",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Home",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Home",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Islamic University in Uganda (IUIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Away",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Soroti University",
+          "venue": "Away",
+          "homeTeam": "Soroti University",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        },
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Away",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 3
+        }
+      ]
+    },
+    {
+      "name": "Mountains of the Moon University",
+      "fixtures": [
+        {
+          "opponent": "Kabale University",
+          "venue": "Home",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Muteesa I Royal University",
+          "venue": "Home",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Home",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Away",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Nkumba University",
+          "venue": "Away",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Away",
+          "homeTeam": "International University of East Africa (IUEA)",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Muni University",
+      "fixtures": [
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Home",
+          "homeTeam": "Muni University",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Home",
+          "homeTeam": "Muni University",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Gulu University",
+          "venue": "Home",
+          "homeTeam": "Muni University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Away",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Away",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Seeta University",
+          "venue": "Away",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Muteesa I Royal University",
+      "fixtures": [
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Home",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "Bishop Stuart University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kabale University",
+          "venue": "Home",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "International University of East Africa (IUEA)",
+          "venue": "Home",
+          "homeTeam": "Muteesa I Royal University",
+          "awayTeam": "International University of East Africa (IUEA)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Away",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Away",
+          "homeTeam": "ISBAT University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Bugema University",
+          "venue": "Away",
+          "homeTeam": "Bugema University",
+          "awayTeam": "Muteesa I Royal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Ndejje University",
+      "fixtures": [
+        {
+          "opponent": "Muni University",
+          "venue": "Home",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Lira University",
+          "venue": "Home",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Gulu University",
+          "venue": "Home",
+          "homeTeam": "Ndejje University",
+          "awayTeam": "Gulu University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Away",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Away",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Away",
+          "homeTeam": "Africa Renewal University",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Nkumba University",
+      "fixtures": [
+        {
+          "opponent": "Makerere University",
+          "venue": "Home",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "Makerere University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Home",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "Mountains of the Moon University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "ISBAT University",
+          "venue": "Home",
+          "homeTeam": "Nkumba University",
+          "awayTeam": "ISBAT University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "St. Lawrence University",
+          "venue": "Away",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Away",
+          "homeTeam": "Kampala International University (KIU)",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kabale University",
+          "venue": "Away",
+          "homeTeam": "Kabale University",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Seeta University",
+      "fixtures": [
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Home",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Home",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Kyambogo University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Muni University",
+          "venue": "Home",
+          "homeTeam": "Seeta University",
+          "awayTeam": "Muni University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Gulu University",
+          "venue": "Away",
+          "homeTeam": "Gulu University",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "Lira University",
+          "venue": "Away",
+          "homeTeam": "Lira University",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        },
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Away",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 4
+        }
+      ]
+    },
+    {
+      "name": "Soroti University",
+      "fixtures": [
+        {
+          "opponent": "Kumi University",
+          "venue": "Home",
+          "homeTeam": "Soroti University",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Home",
+          "homeTeam": "Soroti University",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Home",
+          "homeTeam": "Soroti University",
+          "awayTeam": "King Ceasor University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Away",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Busitema University",
+          "venue": "Away",
+          "homeTeam": "Busitema University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Away",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "St. Lawrence University",
+      "fixtures": [
+        {
+          "opponent": "Nkumba University",
+          "venue": "Home",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Nkumba University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kampala International University (KIU)",
+          "venue": "Home",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Kampala International University (KIU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kabale University",
+          "venue": "Home",
+          "homeTeam": "St. Lawrence University",
+          "awayTeam": "Kabale University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Makerere University",
+          "venue": "Away",
+          "homeTeam": "Makerere University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Bishop Stuart University",
+          "venue": "Away",
+          "homeTeam": "Bishop Stuart University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Mountains of the Moon University",
+          "venue": "Away",
+          "homeTeam": "Mountains of the Moon University",
+          "awayTeam": "St. Lawrence University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "Uganda Christian University (UCU)",
+      "fixtures": [
+        {
+          "opponent": "Uganda Martyrs University",
+          "venue": "Home",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Busitema University",
+          "venue": "Home",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Busitema University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Home",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Metropolitan International University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Away",
+          "homeTeam": "Makerere University Business School (MUBS)",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kumi University",
+          "venue": "Away",
+          "homeTeam": "Kumi University",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "World Mission Frontiers University",
+          "venue": "Away",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "Uganda Martyrs University",
+      "fixtures": [
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Home",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kumi University",
+          "venue": "Home",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Kumi University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Soroti University",
+          "venue": "Home",
+          "homeTeam": "Uganda Martyrs University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Away",
+          "homeTeam": "Uganda Christian University (UCU)",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Metropolitan International University",
+          "venue": "Away",
+          "homeTeam": "Metropolitan International University",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Away",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "Uganda Martyrs University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "University of Kisubi (UNIK)",
+      "fixtures": [
+        {
+          "opponent": "YMCA Comprehensive Institute",
+          "venue": "Home",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Ndejje University",
+          "venue": "Home",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "Ndejje University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Lira University",
+          "venue": "Home",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "Lira University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Muni University",
+          "venue": "Away",
+          "homeTeam": "Muni University",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Away",
+          "homeTeam": "Kampala University (KU)",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Gulu University",
+          "venue": "Away",
+          "homeTeam": "Gulu University",
+          "awayTeam": "University of Kisubi (UNIK)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "World Mission Frontiers University",
+      "fixtures": [
+        {
+          "opponent": "Soroti University",
+          "venue": "Home",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Soroti University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Uganda Christian University (UCU)",
+          "venue": "Home",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Uganda Christian University (UCU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Makerere University Business School (MUBS)",
+          "venue": "Home",
+          "homeTeam": "World Mission Frontiers University",
+          "awayTeam": "Makerere University Business School (MUBS)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "King Ceasor University",
+          "venue": "Away",
+          "homeTeam": "King Ceasor University",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Islamic University in Uganda (IUIU)",
+          "venue": "Away",
+          "homeTeam": "Islamic University in Uganda (IUIU)",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        },
+        {
+          "opponent": "Kumi University",
+          "venue": "Away",
+          "homeTeam": "Kumi University",
+          "awayTeam": "World Mission Frontiers University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "name": "YMCA Comprehensive Institute",
+      "fixtures": [
+        {
+          "opponent": "Kampala University (KU)",
+          "venue": "Home",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Kampala University (KU)",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        },
+        {
+          "opponent": "Africa Renewal University",
+          "venue": "Home",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Africa Renewal University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        },
+        {
+          "opponent": "Seeta University",
+          "venue": "Home",
+          "homeTeam": "YMCA Comprehensive Institute",
+          "awayTeam": "Seeta University",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        },
+        {
+          "opponent": "University of Kisubi (UNIK)",
+          "venue": "Away",
+          "homeTeam": "University of Kisubi (UNIK)",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        },
+        {
+          "opponent": "Gulu University",
+          "venue": "Away",
+          "homeTeam": "Gulu University",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        },
+        {
+          "opponent": "Kyambogo University",
+          "venue": "Away",
+          "homeTeam": "Kyambogo University",
+          "awayTeam": "YMCA Comprehensive Institute",
+          "date": null,
+          "kickoffTime": null,
+          "sourcePage": 6
+        }
+      ]
+    }
+  ]
+}
