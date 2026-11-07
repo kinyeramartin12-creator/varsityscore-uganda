@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { getUFLGroup } from '../utils/uflGroup'
 import sharedTeamAliases from '../../shared/teamAliases.json'
 import { uflGroups } from '../data/uflGroups'
+import { getCanonicalTeamName } from '../utils/teamIdentity'
 
 type Goal = {
 id?: string | number
@@ -185,10 +186,28 @@ match.date === fixture.date
 )
 ]
 
-const displayedMatches = combinedMatches.filter(
-(match) =>
-match.homeTeam?.trim() !== '' &&
-match.awayTeam?.trim() !== ''
+// Resolve all detected university names to official UFL names.
+const normalizedMatches = combinedMatches.map((match) => ({
+  ...match,
+
+  homeTeam: getCanonicalTeamName(match.homeTeam),
+  awayTeam: getCanonicalTeamName(match.awayTeam),
+
+  goals: match.goals?.map((goal) => ({
+    ...goal,
+    team: getCanonicalTeamName(goal.team),
+  })),
+
+  cards: match.cards?.map((card) => ({
+    ...card,
+    team: getCanonicalTeamName(card.team),
+  })),
+}))
+
+const displayedMatches = normalizedMatches.filter(
+  (match) =>
+    match.homeTeam?.trim() !== '' &&
+    match.awayTeam?.trim() !== ''
 )
 
 // Use Uganda's local date.

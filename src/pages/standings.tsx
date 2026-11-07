@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { uflGroups } from '../data/uflGroups'
-import sharedTeamAliases from "../../shared/teamAliases.json"
+import { getCanonicalTeamName } from '../utils/teamIdentity'
 
 
 
@@ -43,31 +43,11 @@ const isFinished = (status?: string) => {
   )
 }
 
-function normalizeTeamNameRaw(name: string): string {
-  return (name || '')
+function normalizeTeamName(name: string): string {
+  return getCanonicalTeamName(name)
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '')
-}
-
-const aliases: Record<string, string> = Object.entries(sharedTeamAliases).reduce(
-  (map, [canonicalName, teamAliases]) => {
-    const canonical = normalizeTeamNameRaw(canonicalName)
-
-    map[canonical] = canonical
-
-    for (const alias of teamAliases as string[]) {
-      map[normalizeTeamNameRaw(alias)] = canonical
-    }
-
-    return map
-  },
-  {} as Record<string, string>
-)
-
-function normalizeTeamName(name: string): string {
-  const normalized = normalizeTeamNameRaw(name)
-  return aliases[normalized] || normalized
 }
 
 function calculateGroupStandings(matches: Match[]): TeamGroup[] {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getUFLGroup } from '../utils/uflGroup'
-import sharedTeamAliases from '../../shared/teamAliases.json'
-import { uflGroups } from '../data/uflGroups'
+import { getCanonicalTeamName } from '../utils/teamIdentity'
 
 
 type LiveMatch = {
@@ -33,37 +32,9 @@ type LiveMatch = {
   }[]
 }
 
-function normalizeTeamName(name: string): string {
-  return (name || '')
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '')
-}
-
-const officialTeamNames: Record<string, string> = {}
-
-uflGroups.forEach((group) => {
-  group.teams.forEach((teamName) => {
-    officialTeamNames[normalizeTeamName(teamName)] = teamName
-  })
-})
-
-const teamAliasLookup: Record<string, string> = {}
-
-Object.entries(sharedTeamAliases).forEach(([canonicalKey, aliases]) => {
-  const canonicalName =
-    officialTeamNames[normalizeTeamName(canonicalKey)] || canonicalKey
-
-  teamAliasLookup[normalizeTeamName(canonicalKey)] = canonicalName
-
-  ;(aliases as string[]).forEach((alias) => {
-    teamAliasLookup[normalizeTeamName(alias)] = canonicalName
-  })
-})
-
 function getOfficialTeamName(teamName?: string | null): string {
   if (!teamName) return ''
-  return teamAliasLookup[normalizeTeamName(teamName)] || teamName
+  return getCanonicalTeamName(teamName)
 }
 
 function LiveScores() {
@@ -231,7 +202,7 @@ function LiveScores() {
                     : 'Not stated'}
                   {' — '}
                   {goal.scorer}
-                  {goal.team ? ` (${goal.team})` : ''}
+                  {goal.team ? ` (${getOfficialTeamName(goal.team)})` : ''}
                   {goal.type && goal.type !== 'NORMAL'
                     ? ` · ${goal.type.replace(/_/g, ' ')}`
                     : ''}
@@ -254,7 +225,7 @@ function LiveScores() {
                     : 'Not stated'}
                   {' — '}
                   {card.player}
-                  {card.team ? ` (${card.team})` : ''}
+                  {card.team ? ` (${getOfficialTeamName(card.team)})` : ''}
                   {' · '}
                   {card.type} CARD
                 </li>

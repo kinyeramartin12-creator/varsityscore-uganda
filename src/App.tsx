@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import PlayerStats from "./pages/PlayerStats"
 import PageNavigation from './components/pagenavigation'
-import sharedTeamAliases from '../shared/teamAliases.json'
 import { uflGroups } from './data/uflGroups'
+import { getCanonicalTeamName } from './utils/teamIdentity'
 
 type Match = {
 id: string | number
@@ -53,12 +53,16 @@ function MatchCard({ match }: { match: Match }) {
 
       <div className="match-teams">
         <div className="team">
-          <span className="team-name">{match.homeTeam}</span>
+          <span className="team-name">
+  {getCanonicalTeamName(match.homeTeam)}
+</span>
           <strong>{match.homeScore}</strong>
         </div>
 
         <div className="team">
-          <span className="team-name">{match.awayTeam}</span>
+          <span className="team-name">
+  {getCanonicalTeamName(match.awayTeam)}
+</span>
           <strong>{match.awayScore}</strong>
         </div>
       </div>
@@ -70,28 +74,11 @@ function MatchCard({ match }: { match: Match }) {
   )
 }
 
-function normalizeTeamNameRaw(name: string): string {
-  return (name || '')
+function resolveTeamKey(teamName: string): string {
+  return getCanonicalTeamName(teamName)
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '')
-}
-
-const teamAliasLookup: Record<string, string> = {}
-
-Object.entries(sharedTeamAliases).forEach(([canonicalKey, aliases]) => {
-  const key = normalizeTeamNameRaw(canonicalKey)
-
-  teamAliasLookup[key] = key
-
-  ;(aliases as string[]).forEach((alias) => {
-    teamAliasLookup[normalizeTeamNameRaw(alias)] = key
-  })
-})
-
-function resolveTeamKey(teamName: string): string {
-  const normalized = normalizeTeamNameRaw(teamName)
-  return teamAliasLookup[normalized] || normalized
 }
 
 function calculateStandings(matches: Match[]): TeamStanding[] {
