@@ -71,7 +71,7 @@ useEffect(() => {
 
     async function loadMatches() {
       try {
-        const response = await fetch("http://localhost:3001/api/matches")
+        const response = await fetch("/api/matches")
 
         if (!response.ok) {
           throw new Error("Unable to load matches")
@@ -115,7 +115,7 @@ useEffect(() => {
   async function loadOfficialPosts() {
     try {
       const response = await fetch(
-  "http://localhost:3001/api/ufl-parsed-updates",
+  "/api/ufl-parsed-updates",
   {
     credentials: "include",
   }

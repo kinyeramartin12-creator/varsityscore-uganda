@@ -49,7 +49,7 @@ useEffect(() => {
   const loadPairings = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/ufl-team-pairings"
+        "/api/ufl-team-pairings"
       )
 
       if (!response.ok) {
@@ -70,7 +70,7 @@ useEffect(() => {
   const loadTeamAliases = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/team-aliases"
+        "/api/team-aliases"
       )
 
       if (!response.ok) {
@@ -90,7 +90,7 @@ useEffect(() => {
 useEffect(() => {
   const loadMatches = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/matches')
+      const response = await fetch('/api/matches')
 
       if (!response.ok) {
         throw new Error('Failed to load matches')

@@ -167,7 +167,7 @@ function Standings() {
     async function fetchMatches() {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/matches'
+          '/api/matches'
         )
 
         if (!response.ok) {

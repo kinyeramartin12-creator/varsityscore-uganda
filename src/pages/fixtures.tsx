@@ -121,9 +121,9 @@ async function fetchMatches() {
 try {
 const [matchesResponse, fixturesResponse, pairingsResponse] =
   await Promise.all([
-    fetch('http://localhost:3001/api/matches'),
-    fetch('http://localhost:3001/api/ufl-fixtures'),
-    fetch('http://localhost:3001/api/ufl-team-pairings')
+    fetch('/api/matches'),
+    fetch('/api/ufl-fixtures'),
+    fetch('/api/ufl-team-pairings')
   ])
 
     if (

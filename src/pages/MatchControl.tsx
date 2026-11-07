@@ -122,7 +122,7 @@ const [kickoffTime, setKickoffTime] = useState('')
     async function loadMatches() {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/matches"
+          "/api/matches"
         )
 
         if (!response.ok) {
@@ -191,7 +191,7 @@ setCards(selectedMatch.cards ?? [])
       return
     }
 
-    fetch(`http://localhost:3001/api/matches/${selectedMatchId}`, {
+    fetch(`/api/matches/${selectedMatchId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -290,7 +290,7 @@ function startMatch() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/matches",
+        "/api/matches",
         {
           method: "POST",
           headers: {
@@ -354,7 +354,7 @@ alert("New match created successfully!")
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/matches/${selectedMatchId}`,
+        `/api/matches/${selectedMatchId}`,
         {
           method: "DELETE",
         }

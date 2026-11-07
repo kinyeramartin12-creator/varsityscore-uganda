@@ -4,7 +4,11 @@ import Parser from "rss-parser"
 import fs from "node:fs"
 import { randomBytes, timingSafeEqual } from "node:crypto"
 import { createWorker } from "tesseract.js"
+import { supabase } from "./database.js"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Load private administrator settings.
 const ENV_FILE = new URL("../.env", import.meta.url)
@@ -269,36 +273,110 @@ function sameUniversity(firstTeam, secondTeam) {
 }
 
 
-function readFixtures() {
-  try {
-    return JSON.parse(fs.readFileSync(FIXTURES_FILE, "utf8"))
-  } catch {
-    return []
-  }
+// Load official fixtures from Supabase when the server starts.
+let fixturesCache = []
+
+const { data: fixtureRows, error: fixtureLoadError } = await supabase
+  .from("fixtures")
+  .select("record")
+
+if (fixtureLoadError) {
+  throw new Error(
+    `Unable to load fixtures from Supabase: ${fixtureLoadError.message}`
+  )
 }
+
+fixturesCache = fixtureRows.map((row) => row.record)
+
+console.log(`Loaded ${fixturesCache.length} fixtures from Supabase.`)
+
+function readFixtures() {
+  return structuredClone(fixturesCache)
+}
+
+let fixturesSaveQueue = Promise.resolve()
 
 function saveFixtures(fixtures) {
-  fs.writeFileSync(
-    FIXTURES_FILE,
-    JSON.stringify(fixtures, null, 2)
+  const snapshot = structuredClone(fixtures)
+
+  fixturesCache = snapshot
+
+  fixturesSaveQueue = fixturesSaveQueue.then(async () => {
+    const rows = snapshot.map((fixture) => ({
+      id: String(fixture.id),
+      home_team: fixture.homeTeam || "",
+      away_team: fixture.awayTeam || "",
+      fixture_date: fixture.date || null,
+      status: fixture.status || "",
+      record: fixture,
+    }))
+
+    if (rows.length > 0) {
+      const { error } = await supabase
+        .from("fixtures")
+        .upsert(rows, { onConflict: "id" })
+
+      if (error) throw error
+    }
+
+    console.log(`Saved ${rows.length} fixtures to Supabase.`)
+  }).catch((error) => {
+    console.error("Supabase fixtures save failed:", error)
+  })
+
+  return fixturesSaveQueue
+}
+
+// Load previously processed UFL posts from Supabase.
+let processedUFLPostsCache = []
+
+const { data: processedPostRows, error: processedPostsLoadError } =
+  await supabase
+    .from("processed_ufl_posts")
+    .select("post_id")
+
+if (processedPostsLoadError) {
+  throw new Error(
+    `Unable to load processed UFL posts: ${processedPostsLoadError.message}`
   )
 }
+
+processedUFLPostsCache = processedPostRows.map((row) => row.post_id)
+
+console.log(
+  `Loaded ${processedUFLPostsCache.length} processed UFL posts from Supabase.`
+)
 
 function readProcessedUFLPosts() {
-  try {
-    return JSON.parse(
-      fs.readFileSync(PROCESSED_UFL_POSTS_FILE, "utf8")
-    )
-  } catch {
-    return []
-  }
+  return [...processedUFLPostsCache]
 }
 
+let processedPostsSaveQueue = Promise.resolve()
+
 function saveProcessedUFLPosts(postIds) {
-  fs.writeFileSync(
-    PROCESSED_UFL_POSTS_FILE,
-    JSON.stringify(postIds, null, 2)
-  )
+  const snapshot = [...new Set(postIds)]
+
+  processedUFLPostsCache = snapshot
+
+  processedPostsSaveQueue = processedPostsSaveQueue.then(async () => {
+    const rows = snapshot.map((postId) => ({
+      post_id: String(postId),
+    }))
+
+    if (rows.length > 0) {
+      const { error } = await supabase
+        .from("processed_ufl_posts")
+        .upsert(rows, { onConflict: "post_id" })
+
+      if (error) throw error
+    }
+
+    console.log(`Saved ${rows.length} processed UFL posts to Supabase.`)
+  }).catch((error) => {
+    console.error("Supabase processed posts save failed:", error)
+  })
+
+  return processedPostsSaveQueue
 }
 
 
@@ -308,24 +386,59 @@ const UNMATCHED_UFL_RESULTS_FILE = new URL(
   import.meta.url
 )
 
-function readUnmatchedUFLResults() {
-  try {
-    const results = JSON.parse(
-      fs.readFileSync(UNMATCHED_UFL_RESULTS_FILE, "utf8")
-    )
+// Load unmatched official results from Supabase.
+let unmatchedUFLResultsCache = []
 
-    return Array.isArray(results) ? results : []
-  } catch {
-    return []
-  }
+const { data: unmatchedRows, error: unmatchedLoadError } =
+  await supabase
+    .from("unmatched_ufl_results")
+    .select("record")
+
+if (unmatchedLoadError) {
+  throw new Error(
+    `Unable to load unmatched UFL results: ${unmatchedLoadError.message}`
+  )
 }
 
+unmatchedUFLResultsCache = unmatchedRows.map((row) => row.record)
+
+console.log(
+  `Loaded ${unmatchedUFLResultsCache.length} unmatched UFL results from Supabase.`
+)
+
+function readUnmatchedUFLResults() {
+  return structuredClone(unmatchedUFLResultsCache)
+}
+
+let unmatchedResultsSaveQueue = Promise.resolve()
+
 function saveUnmatchedUFLResults(results) {
-  fs.writeFileSync(
-    UNMATCHED_UFL_RESULTS_FILE,
-    JSON.stringify(results, null, 2),
-    "utf8"
-  )
+  const snapshot = structuredClone(results)
+
+  unmatchedUFLResultsCache = snapshot
+
+  unmatchedResultsSaveQueue = unmatchedResultsSaveQueue.then(async () => {
+    const rows = snapshot.map((result) => ({
+      source_post: String(result.sourcePost),
+      published_at: result.publishedAt || null,
+      match_date: result.matchDate || null,
+      record: result,
+    }))
+
+    if (rows.length > 0) {
+      const { error } = await supabase
+        .from("unmatched_ufl_results")
+        .upsert(rows, { onConflict: "source_post" })
+
+      if (error) throw error
+    }
+
+    console.log(`Saved ${rows.length} unmatched UFL results to Supabase.`)
+  }).catch((error) => {
+    console.error("Supabase unmatched results save failed:", error)
+  })
+
+  return unmatchedResultsSaveQueue
 }
 
 async function findNewUFLMatchDayPost() {
@@ -2322,7 +2435,7 @@ const saysHalfTime =
   /\b(half[\s-]?time|half time break|interval)\b/i.test(lowerText)
 
 const saysFullTime =
-  /\b(full[\s-]?time|game over|match over|final whistle)\b/i.test(lowerText)
+  /\b(full[\s-]?time|game over|ft|match over|final whistle)\b/i.test(lowerText)
 
 if (saysFullTime) {
   match.status = "FINISHED"
@@ -2442,11 +2555,6 @@ if (uniqueGoals.length !== (match.goals || []).length) {
 }
 
 if (savedLiveEvents.length > 0) {
-  saveMatches()
-}
-
-
-if (savedResults.length > 0) {
   saveMatches()
 }
 
@@ -3349,40 +3457,83 @@ app.put("/api/matches/:id",requireAdmin, (req, res) => {
   })
 })
 
-const matchesFile = new URL("./matches.json", import.meta.url)
 
-function loadMatches() {
-  try {
-    return JSON.parse(fs.readFileSync(matchesFile, "utf8"))
-  } catch {
-    return [
-      {
-        id: "match-1",
-        homeTeam: "",
-        awayTeam: "",
-        homeScore: 0,
-        awayScore: 0,
-        status: "NOT STARTED",
-        minute: 0,
-        events: [],
-      },
-    ]
+async function loadMatches() {
+  const { data, error } = await supabase
+    .from("matches")
+    .select("id, record")
+
+  if (error) {
+    throw new Error(
+      `Unable to load matches from Supabase: ${error.message}`
+    )
   }
+
+  console.log(`Loaded ${data.length} matches from Supabase.`)
+
+  return data.map((row) => row.record)
 }
 
-let matches = loadMatches()
+let matches = await loadMatches()
 
-if (!fs.existsSync(matchesFile)) {
-  saveMatches()
-}
+let matchesSaveQueue = Promise.resolve()
 
 function saveMatches() {
-  fs.writeFileSync(
-    matchesFile,
-    JSON.stringify(matches, null, 2),
-    "utf8"
-  )
+  const snapshot = structuredClone(matches)
+
+  matchesSaveQueue = matchesSaveQueue.then(async () => {
+    const rows = snapshot.map((match) => ({
+      id: String(match.id),
+      home_team: match.homeTeam || "",
+      away_team: match.awayTeam || "",
+      match_date: match.date || null,
+      status: match.status || "",
+      record: match,
+    }))
+
+    const { data: existingRows, error: readError } = await supabase
+      .from("matches")
+      .select("id")
+
+    if (readError) {
+      throw readError
+    }
+
+    const currentIds = new Set(rows.map((row) => row.id))
+
+    const staleIds = existingRows
+      .map((row) => row.id)
+      .filter((id) => !currentIds.has(id))
+
+    if (staleIds.length > 0) {
+      const { error: deleteError } = await supabase
+        .from("matches")
+        .delete()
+        .in("id", staleIds)
+
+      if (deleteError) {
+        throw deleteError
+      }
+    }
+
+    if (rows.length > 0) {
+      const { error: saveError } = await supabase
+        .from("matches")
+        .upsert(rows, { onConflict: "id" })
+
+      if (saveError) {
+        throw saveError
+      }
+    }
+
+    console.log(`Saved ${rows.length} matches to Supabase.`)
+  }).catch((error) => {
+    console.error("Supabase matches save failed:", error)
+  })
+
+  return matchesSaveQueue
 }
+
 
 const newsSources = [
   {
@@ -3699,6 +3850,13 @@ app.get("/api/check-new-ufl-fixture", requireAdmin, async (req, res) => {
       error: "Unable to check for new UFL announcements."
     })
   }
+})
+
+// Serve the built React frontend in production.
+app.use(express.static(path.join(__dirname, "../dist")))
+
+app.get("/{*splat}", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"))
 })
 
 

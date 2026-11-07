@@ -59,7 +59,7 @@ export default function PlayerStatisticsPanel() {
   async function loadStatistics() {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/matches"
+        "/api/matches"
       )
 
       if (!response.ok) {

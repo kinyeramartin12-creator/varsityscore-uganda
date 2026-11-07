@@ -161,7 +161,7 @@ function Home() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/matches')
+        const response = await fetch('/api/matches')
         if (!response.ok) return
 
         const data: Match[] = await response.json()

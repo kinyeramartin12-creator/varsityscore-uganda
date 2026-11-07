@@ -3,7 +3,7 @@ import type { FormEvent } from "react"
 import PepsiUFL from "./PepsiUFL"
 import "./AdminPepsiUFL.css"
 
-const API = "http://localhost:3001"
+const API = ""
 
 function AdminPepsiUFL() {
   const [checking, setChecking] = useState(true)
