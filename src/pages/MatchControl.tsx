@@ -17,6 +17,17 @@ minute: number
 type: "YELLOW" | "RED"
 }
 
+type Fixture = {
+  id: string
+  homeTeam: string
+  awayTeam: string
+  date: string
+  kickoffTime: string
+  group?: string
+  venue?: string
+  status?: string
+}
+
 type Match = {
 id: string
 homeTeam: string
@@ -34,6 +45,9 @@ cards?: MatchCard[]
 
 
 function MatchControl() {
+
+
+
   const [homeTeam, setHomeTeam] = useState(
     () => localStorage.getItem("varsityscore-home-team") || ""
   )
@@ -85,7 +99,16 @@ const [cardType, setCardType] = useState<MatchCard["type"]>("YELLOW")
 
   const [matchDate, setMatchDate] = useState('')
 const [kickoffTime, setKickoffTime] = useState('')
-
+const [fixtureHomeTeam, setFixtureHomeTeam] = useState("")
+const [fixtureAwayTeam, setFixtureAwayTeam] = useState("")
+const [fixtureDate, setFixtureDate] = useState("")
+const [fixtureKickoff, setFixtureKickoff] = useState("")
+const [fixtureGroup, setFixtureGroup] = useState("")
+const [fixtureVenue, setFixtureVenue] = useState("")
+const [fixtureMessage, setFixtureMessage] = useState("")
+const [savingFixture, setSavingFixture] = useState(false)
+const [fixtures, setFixtures] = useState<Fixture[]>([])
+const [removingFixtureId, setRemovingFixtureId] = useState("")
   // Automatically count match minutes while the match is live.
   useEffect(() => {
     if (matchStatus !== "LIVE") {
@@ -98,6 +121,30 @@ const [kickoffTime, setKickoffTime] = useState('')
 
     return () => clearInterval(interval)
   }, [matchStatus])
+
+// Load upcoming UFL fixtures and refresh every five seconds.
+useEffect(() => {
+  async function loadFixtures() {
+    try {
+      const response = await fetch("/api/ufl-fixtures")
+
+      if (!response.ok) {
+        throw new Error("Failed to load UFL fixtures")
+      }
+
+      const data: Fixture[] = await response.json()
+      setFixtures(data)
+    } catch (error) {
+      console.error("Unable to load UFL fixtures:", error)
+    }
+  }
+
+  loadFixtures()
+
+  const interval = setInterval(loadFixtures, 5000)
+
+  return () => clearInterval(interval)
+}, [])
 
   // Save the current match information in the browser.
   useEffect(() => {
@@ -489,6 +536,102 @@ function recordCard() {
 }
 
 
+async function saveManualFixture() {
+  if (
+    !fixtureHomeTeam.trim() ||
+    !fixtureAwayTeam.trim() ||
+    !fixtureDate ||
+    !fixtureKickoff
+  ) {
+    setFixtureMessage("Please fill in both teams, date and kickoff time.")
+    return
+  }
+
+  setSavingFixture(true)
+  setFixtureMessage("")
+
+  try {
+    const response = await fetch("/api/ufl-fixtures", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        homeTeam: fixtureHomeTeam.trim(),
+        awayTeam: fixtureAwayTeam.trim(),
+        date: fixtureDate,
+        kickoffTime: fixtureKickoff,
+        competition: "Pepsi University Football League",
+        group: fixtureGroup,
+        venue: fixtureVenue,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || "Unable to save fixture.")
+    }
+
+    setFixtureMessage("Fixture added successfully!")
+
+    setFixtureHomeTeam("")
+    setFixtureAwayTeam("")
+    setFixtureDate("")
+    setFixtureKickoff("")
+    setFixtureGroup("")
+    setFixtureVenue("")
+  } catch (error) {
+    setFixtureMessage(
+      error instanceof Error ? error.message : "Unable to save fixture."
+    )
+  } finally {
+    setSavingFixture(false)
+  }
+}
+async function removeFixture(fixture: Fixture) {
+  const confirmed = window.confirm(
+    `Remove ${fixture.homeTeam} vs ${fixture.awayTeam} from upcoming fixtures?`
+  )
+
+  if (!confirmed) return
+
+  setRemovingFixtureId(fixture.id)
+
+  try {
+    const response = await fetch(
+      `/api/ufl-fixtures/${encodeURIComponent(fixture.id)}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    )
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || "Unable to remove fixture.")
+    }
+
+    setFixtures(data.fixtures)
+
+    if (data.matches) {
+      setMatches(data.matches)
+    }
+
+    alert("Upcoming fixture removed successfully.")
+  } catch (error) {
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Unable to remove fixture."
+    )
+  } finally {
+    setRemovingFixtureId("")
+  }
+}
+
   return (
     <main className="page-container">
 
@@ -521,7 +664,117 @@ function recordCard() {
       </header>
 
       <section className="page-content">
-        <p className="About">
+
+<div className="fixture-card">
+  <h2>Add Upcoming UFL Fixture</h2>
+
+  <label>
+    Home University
+    <input
+      className="news-search"
+      value={fixtureHomeTeam}
+      onChange={(event) => setFixtureHomeTeam(event.target.value)}
+      placeholder="e.g. Kampala University"
+    />
+  </label>
+
+  <label>
+    Away University
+    <input
+      className="news-search"
+      value={fixtureAwayTeam}
+      onChange={(event) => setFixtureAwayTeam(event.target.value)}
+      placeholder="e.g. MUBS"
+    />
+  </label>
+
+  <label>
+    Match Date
+    <input
+      type="date"
+      value={fixtureDate}
+      onChange={(event) => setFixtureDate(event.target.value)}
+    />
+  </label>
+
+  <label>
+    Kickoff Time
+    <input
+      type="time"
+      value={fixtureKickoff}
+      onChange={(event) => setFixtureKickoff(event.target.value)}
+    />
+  </label>
+
+  <label>
+    Group (optional)
+    <input
+      className="news-search"
+      value={fixtureGroup}
+      onChange={(event) => setFixtureGroup(event.target.value)}
+      placeholder="e.g. Group A"
+    />
+  </label>
+
+  <label>
+    Venue (optional)
+    <input
+      className="news-search"
+      value={fixtureVenue}
+      onChange={(event) => setFixtureVenue(event.target.value)}
+      placeholder="Enter match venue"
+    />
+  </label>
+
+  <button
+    onClick={saveManualFixture}
+    disabled={savingFixture}
+  >
+    {savingFixture ? "Saving Fixture..." : "Add Upcoming Fixture"}
+  </button>
+
+  {fixtureMessage && <p>{fixtureMessage}</p>}
+</div>
+
+<div className="fixture-card">
+  <h2>Manage Upcoming Fixtures</h2>
+
+  {fixtures.length > 0 ? (
+    fixtures.map((fixture) => (
+      <div
+        key={fixture.id}
+        style={{
+          borderBottom: "1px solid #444",
+          padding: "12px 0",
+          marginBottom: "10px",
+        }}
+      >
+        <h3>
+          {fixture.homeTeam} vs {fixture.awayTeam}
+        </h3>
+
+        <p>Date: {fixture.date || "Not stated"}</p>
+        <p>Kickoff: {fixture.kickoffTime || "Not stated"}</p>
+
+        {fixture.group && <p>Group: {fixture.group}</p>}
+        {fixture.venue && <p>Venue: {fixture.venue}</p>}
+
+        <button
+          onClick={() => removeFixture(fixture)}
+          disabled={removingFixtureId === fixture.id}
+        >
+          {removingFixtureId === fixture.id
+            ? "Removing..."
+            : "Remove Fixture"}
+        </button>
+      </div>
+    ))
+  ) : (
+    <p>No upcoming fixtures currently saved.</p>
+  )}
+</div>
+
+<p className="About">
           Match Control. Match information is saved in this
           browser and sent to the local backend.
         </p>
@@ -772,27 +1025,174 @@ function recordCard() {
 
                 <hr />
 
-        <h3>Goals and Assists</h3>
+       
+          <h3>Goals and Assists</h3>
 
-        {goals.length > 0 ? (
-          <ul>
-            {goals.map((goal) => (
-              <li key={goal.id}>
-                <strong>{goal.minute}' — {goal.scorer}</strong>
-                {" "}({goal.team})
+<p>
+  Add, edit or delete goal records, including for finished matches.
+  These changes will not alter the match score.
+</p>
 
-                {goal.assist.trim()
-                  ? ` — Assist: ${goal.assist}`
-                  : " — No assist recorded"}
+<button
+  onClick={() => {
+    const scorer = window.prompt("Enter the goal scorer's full name:")
 
-                {goal.type !== "NORMAL" &&
-                  ` — ${goal.type.replaceAll("_", " ")}`}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No goals recorded yet.</p>
-        )}
+    if (scorer === null || !scorer.trim()) return
+
+    const teamInput = window.prompt(
+      `Which university scored?\nEnter exactly one:\n${homeTeam}\n${awayTeam}`,
+      homeTeam
+    )
+
+    if (teamInput === null) return
+
+    const selectedTeam = [homeTeam, awayTeam].find(
+      team => team.toLowerCase() === teamInput.trim().toLowerCase()
+    )
+
+    if (!selectedTeam) {
+      alert("Please enter one of the two university names exactly.")
+      return
+    }
+
+    const minuteInput = window.prompt(
+      "Enter the goal minute. Leave blank if it is not known:"
+    )
+
+    if (minuteInput === null) return
+
+    const minute = minuteInput.trim() ? Number(minuteInput) : 0
+
+    if (!Number.isFinite(minute) || minute < 0) {
+      alert("Please enter a valid goal minute.")
+      return
+    }
+
+    const assist = window.prompt(
+      "Enter the assist maker's name. Leave blank if there was no assist or it is unknown:"
+    )
+
+    if (assist === null) return
+
+    const newGoal: Goal = {
+      id: `manual-goal-${Date.now()}`,
+      team: selectedTeam,
+      scorer: scorer.trim(),
+      assist: assist.trim(),
+      minute,
+      type: "NORMAL",
+    }
+
+    setGoals(currentGoals => [...currentGoals, newGoal])
+  }}
+>
+  + Add Goal Record
+</button>
+
+{goals.length > 0 ? (
+  <ul>
+    {goals.map(goal => (
+      <li key={goal.id}>
+        <strong>
+          {goal.minute > 0 ? `${goal.minute}'` : "Minute not stated"}
+          {" — "}
+          {goal.scorer}
+        </strong>
+
+        {" "}({goal.team})
+
+        {goal.assist?.trim()
+          ? ` — Assist: ${goal.assist}`
+          : " — No assist recorded"}
+
+        {(goal.type || "NORMAL") !== "NORMAL" &&
+          ` — ${(goal.type || "NORMAL").replaceAll("_", " ")}`}
+
+        <div style={{ marginTop: "6px", marginBottom: "12px" }}>
+          <button
+            onClick={() => {
+              const scorer = window.prompt(
+                "Edit scorer's name:",
+                goal.scorer
+              )
+
+              if (scorer === null || !scorer.trim()) return
+
+              const teamInput = window.prompt(
+                `Enter the scoring university:\n${homeTeam}\n${awayTeam}`,
+                goal.team
+              )
+
+              if (teamInput === null) return
+
+              const selectedTeam = [homeTeam, awayTeam].find(
+                team => team.toLowerCase() === teamInput.trim().toLowerCase()
+              )
+
+              if (!selectedTeam) {
+                alert("Please enter one of the two university names exactly.")
+                return
+              }
+
+              const minuteInput = window.prompt(
+                "Edit goal minute. Leave blank if unknown:",
+                goal.minute > 0 ? String(goal.minute) : ""
+              )
+
+              if (minuteInput === null) return
+
+              const minute = minuteInput.trim() ? Number(minuteInput) : 0
+
+              if (!Number.isFinite(minute) || minute < 0) {
+                alert("Please enter a valid goal minute.")
+                return
+              }
+
+              const assist = window.prompt(
+                "Edit assist maker. Leave blank if none or unknown:",
+                goal.assist || ""
+              )
+
+              if (assist === null) return
+
+              const updatedGoal: Goal = {
+                ...goal,
+                scorer: scorer.trim(),
+                team: selectedTeam,
+                minute,
+                assist: assist.trim(),
+              }
+
+              setGoals(currentGoals =>
+                currentGoals.map(item =>
+                  item.id === goal.id ? updatedGoal : item
+                )
+              )
+            }}
+          >
+            Edit
+          </button>
+
+          {" "}
+
+          <button
+            onClick={() => {
+              if (window.confirm(`Delete the goal by ${goal.scorer}?`)) {
+                setGoals(currentGoals =>
+                  currentGoals.filter(item => item.id !== goal.id)
+                )
+              }
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No goals recorded yet.</p>
+)}
 
         <hr />
 
