@@ -534,7 +534,11 @@ return ( <main className="page-container">
                           >
                             ⚽{' '}
                             {goal.minute != null && (
-                              <strong>{goal.minute}'</strong>
+                              <strong>
+                             {goal.minute > 90
+                             ? `90+${goal.minute - 90}'`
+                             : `${goal.minute}'`}
+                              </strong>
                             )}
                             {goal.minute == null && (
                               <strong>Not stated</strong>

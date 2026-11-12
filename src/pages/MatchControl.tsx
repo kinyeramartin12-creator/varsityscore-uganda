@@ -218,13 +218,7 @@ setKickoffTime(selectedMatch.kickoffTime || '')
 setGoals(selectedMatch.goals ?? [])
 setCards(selectedMatch.cards ?? [])
 
-    const savedEvents = localStorage.getItem(
-      `varsityscore-events-${selectedMatch.id}`
-    )
-
-    setEvents(
-      savedEvents ? JSON.parse(savedEvents) : selectedMatch.events
-    )
+   setEvents(selectedMatch.events ?? [])
   }, [selectedMatchId])
 
   // Send changes to the backend.
@@ -1094,7 +1088,11 @@ async function removeFixture(fixture: Fixture) {
     {goals.map(goal => (
       <li key={goal.id}>
         <strong>
-          {goal.minute > 0 ? `${goal.minute}'` : "Minute not stated"}
+          {goal.minute > 90
+  ? `90+${goal.minute - 90}'`
+  : goal.minute > 0
+    ? `${goal.minute}'`
+    : "Minute not stated"}
           {" — "}
           {goal.scorer}
         </strong>

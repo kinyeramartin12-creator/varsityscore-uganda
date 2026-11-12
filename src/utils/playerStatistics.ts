@@ -40,30 +40,25 @@ export function calculatePlayerStatistics(
   }
 
   function getPlayer(name: string, team: string | null) {
-    const cleanName = name.trim()
+  const cleanName = name.trim()
 
-    if (!cleanName) return null
+  if (!cleanName) return null
 
-    const key = cleanName.toLowerCase()
+  const university = canonicalTeamName(team) || "Not confirmed"
 
-    if (!players.has(key)) {
-      players.set(key, {
-        player: cleanName,
-        university: canonicalTeamName(team) || "Not confirmed",
-        goals: 0,
-        assists: 0,
-      })
-    } else {
-      const existing = players.get(key)!
+  const key = `${cleanName.toLowerCase()}::${university.toLowerCase()}`
 
-      if (team && existing.university === "Not confirmed") {
-        existing.university =
-          canonicalTeamName(team) || "Not confirmed"
-      }
-    }
-
-    return players.get(key)!
+  if (!players.has(key)) {
+    players.set(key, {
+      player: cleanName,
+      university,
+      goals: 0,
+      assists: 0,
+    })
   }
+
+  return players.get(key)!
+}
 
   for (const match of matches) {
     const countedGoals = new Set<string>()

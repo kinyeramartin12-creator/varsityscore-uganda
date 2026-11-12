@@ -198,8 +198,10 @@ function LiveScores() {
               {(liveMatch.goals || []).map((goal) => (
                 <li key={goal.id}>
                   {goal.minute != null
-                    ? `${goal.minute}'`
-                    : 'Not stated'}
+                  ? goal.minute > 90
+                  ? `90+${goal.minute - 90}'`
+                  : `${goal.minute}'`
+                   : 'Not stated'}
                   {' — '}
                   {goal.scorer}
                   {goal.team ? ` (${getOfficialTeamName(goal.team)})` : ''}
@@ -221,7 +223,9 @@ function LiveScores() {
               {(liveMatch.cards || []).map((card) => (
                 <li key={card.id}>
                   {card.minute != null
-                    ? `${card.minute}'`
+                    ? card.minute > 90
+                      ? `90+${card.minute - 90}'`
+                      : `${card.minute}'`
                     : 'Not stated'}
                   {' — '}
                   {card.player}

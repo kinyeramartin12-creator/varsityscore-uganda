@@ -51,6 +51,7 @@ const getOfficialTeamName = (teamName: string) => {
 }
 
 export default function PlayerStatisticsPanel() {
+    const [activeTab, setActiveTab] = useState<'scorers' | 'assists'>('scorers')
   const [players, setPlayers] = useState<PlayerStatistics[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -105,24 +106,42 @@ export default function PlayerStatisticsPanel() {
   return (
     <section className="player-statistics">
       <h2>Player Statistics</h2>
+      <div className="statistics-tabs">
+  <button
+    className={activeTab === 'scorers' ? 'active' : ''}
+    onClick={() => setActiveTab('scorers')}
+  >
+    Top Scorers
+  </button>
+
+  <button
+    className={activeTab === 'assists' ? 'active' : ''}
+    onClick={() => setActiveTab('assists')}
+  >
+    Top Assist Makers
+  </button>
+</div>
 
       <div className="statistics-grid">
-        <div className="statistics-card">
+        {activeTab === 'scorers' && (
+  <div className="statistics-card">
           <h3>Top Scorers</h3>
 
           <table>
             <thead>
-              <tr>
-                <th>Player</th>
-                <th>University</th>
-                <th>Goals</th>
-              </tr>
+             <tr>
+  <th>#</th>
+  <th>Player</th>
+  <th>University</th>
+  <th>Goals</th>
+</tr>
             </thead>
 
             <tbody>
-              {scorers.map(player => (
-                <tr key={player.player}>
-                  <td>{player.player}</td>
+             {scorers.map((player, index) => (
+  <tr key={`${player.player}-${player.university}`}>
+    <td>{index + 1}</td>
+    <td>{player.player}</td>
                   <td>{getOfficialTeamName(player.university)}</td>
                   <td>{player.goals}</td>
                 </tr>
@@ -130,29 +149,33 @@ export default function PlayerStatisticsPanel() {
 
               {scorers.length === 0 && (
                 <tr>
-                  <td colSpan={3}>No goals recorded yet.</td>
+                  <td colSpan={4}>No goals recorded yet.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        )}
 
-        <div className="statistics-card">
+        {activeTab === 'assists' && (
+  <div className="statistics-card">
           <h3>Top Assist Makers</h3>
 
           <table>
             <thead>
-              <tr>
-                <th>Player</th>
-                <th>University</th>
-                <th>Assists</th>
-              </tr>
+             <tr>
+  <th>#</th>
+  <th>Player</th>
+  <th>University</th>
+  <th>Assists</th>
+</tr>
             </thead>
 
             <tbody>
-              {assists.map(player => (
-                <tr key={player.player}>
-                  <td>{player.player}</td>
+             {assists.map((player, index) => (
+  <tr key={`${player.player}-${player.university}`}>
+    <td>{index + 1}</td>
+    <td>{player.player}</td>
                   <td>{getOfficialTeamName(player.university)}</td>
                   <td>{player.assists}</td>
                 </tr>
@@ -160,12 +183,13 @@ export default function PlayerStatisticsPanel() {
 
               {assists.length === 0 && (
                 <tr>
-                  <td colSpan={3}>No assists recorded yet.</td>
+                  <td colSpan={4}>No assists recorded yet.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        )}
       </div>
     </section>
   )

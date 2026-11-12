@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { uflGroups } from '../data/uflGroups'
 import { getCanonicalTeamName } from '../utils/teamIdentity'
-
+import { useNavigate } from 'react-router-dom'
 
 
 type Match = {
@@ -159,6 +159,7 @@ function calculateGroupStandings(matches: Match[]): TeamGroup[] {
 }
 
 function Standings() {
+    const navigate = useNavigate()
   const [matches, setMatches] = useState<Match[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -257,7 +258,25 @@ function Standings() {
                     {group.standings.map((team, index) => (
                       <tr key={team.team}>
                         <td>{index + 1}</td>
-                        <td>{team.team}</td>
+                        <td>
+  <button
+    type="button"
+    onClick={() =>
+      navigate(`/teams/${team.team.toLowerCase().replace(/\s+/g, '-')}`)
+    }
+    style={{
+      background: 'none',
+      border: 'none',
+      padding: 0,
+      color: 'inherit',
+      font: 'inherit',
+      cursor: 'pointer',
+      textAlign: 'left',
+    }}
+  >
+    {team.team}
+  </button>
+</td>
                         <td>{team.played}</td>
                         <td>{team.won}</td>
                         <td>{team.drawn}</td>

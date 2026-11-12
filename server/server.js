@@ -1085,16 +1085,19 @@ const awayTeam = fullTime ? fullTime[4].trim() : ""
 const goals = []
 
 const goalPattern =
-  /⚽\s*([A-Z][A-Za-z.'’-]+(?:\s+[A-Z][A-Za-z.'’-]+){0,3})\s*(?:\(\s*🅿️\s*\)\s*)?(\d{1,3})?["'′’]?(?:\s*\(\s*🅿️\s*\))?/g
+  /⚽\s*([A-Z][A-Za-z.'’-]+(?:\s+[A-Z][A-Za-z.'’-]+){0,3})\s*(?:\(\s*🅿️\s*\)\s*)?(\d{1,3}(?:\s*\+\s*\d{1,2})?)?["'′’]?(?:\s*\(\s*🅿️\s*\))?/g
 const goalMatches = [...text.matchAll(goalPattern)]
 
 goalMatches.forEach((goalMatch, index) => {
   const scorer = goalMatch[1].trim()
 
-  const minute = goalMatch[2]
-    ? Number(goalMatch[2])
-    : null
+  const minuteMatch = goalMatch[0].match(
+  /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*["'′’]/
+)
 
+const minute = minuteMatch
+  ? Number(minuteMatch[1]) + Number(minuteMatch[2] || 0)
+  : null
   const start = goalMatch.index + goalMatch[0].length
   const nextGoal = goalMatches[index + 1]
   const end = nextGoal ? nextGoal.index : text.length
@@ -1146,13 +1149,13 @@ goalMatches.forEach((goalMatch, index) => {
   // ADDITION: recognise natural-language goal announcements.
   // The existing emoji-based goal parser above remains unchanged.
 
-  const postMinuteMatch =
-    text.match(/#PepsiUFL\s+(\d{1,3})(?:\s*\+\s*\d{1,2})?\s*["'′’]/i) ||
-    text.match(/\b(\d{1,3})(?:st|nd|rd|th)\s+minute\b/i)
+ const postMinuteMatch =
+  text.match(/#PepsiUFL\s+(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*["'′’]/i) ||
+  text.match(/\b(\d{1,3})(?:st|nd|rd|th)\s+minute\b/i)
 
-  const postGoalMinute = postMinuteMatch
-    ? Number(postMinuteMatch[1])
-    : null
+const postGoalMinute = postMinuteMatch
+  ? Number(postMinuteMatch[1]) + Number(postMinuteMatch[2] || 0)
+  : null
 
   const goalActionWords =
     "breaks|levels|equalizes|equalises|brings|draws|puts|fires|scores|heads|slots|strikes|opens|doubles|restores|makes|finds|with|after|following|from|into"
@@ -2422,9 +2425,52 @@ const minuteMatch = lowerText.match(
   /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*['′’"]/
 )
 
-const explicitMinute = minuteMatch
+// Keep the original minute, including minutes such as 90+3.
+const rawExplicitMinute = minuteMatch
   ? Number(minuteMatch[1]) + Number(minuteMatch[2] || 0)
   : null
+
+// Never allow the clock beyond 100.
+const explicitMinute =
+  rawExplicitMinute !== null
+    ? Math.min(rawExplicitMinute, 100)
+    : null
+
+// Recognise written added-time announcements.
+const addedTimeNumber =
+  "(one|two|three|four|five|six|seven|eight|nine|ten|\\d+)"
+
+const addedTimeMatch = lowerText.match(
+  new RegExp(
+    `\\b(?:minimum\\s+of\\s+)?${addedTimeNumber}\\s+(?:minutes?\\s+(?:of\\s+)?added\\s+time|added\\s+minutes?|minutes?\\s+added\\s+on|minutes?\\s+(?:have\\s+been\\s+)?added)\\b`,
+    "i"
+  )
+)
+
+const addedTimeWords = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+}
+
+const announcedAddedMinutes = addedTimeMatch
+  ? Number(
+      addedTimeWords[addedTimeMatch[1].toLowerCase()] ||
+      addedTimeMatch[1]
+    )
+  : null
+
+const saysAddedTime =
+  announcedAddedMinutes !== null ||
+  (rawExplicitMinute !== null && rawExplicitMinute > 90)
+
 const saysKickoff =
   /\b(kick[\s-]?off|match underway|game underway|we are underway|underway)\b/i.test(lowerText)
 
@@ -2435,16 +2481,34 @@ const saysHalfTime =
   /\b(half[\s-]?time|half time break|interval)\b/i.test(lowerText)
 
 const saysFullTime =
-  /\b(full[\s-]?time|game over|ft|match over|final whistle)\b/i.test(lowerText)
+  /\b(full[\s-]?time|game over|match over|final whistle)\b/i.test(lowerText)
 
 if (saysFullTime) {
   match.status = "FINISHED"
+  match.minute = Math.min(Number(match.minute) || 0, 100)
   match.clockPausedAt = publishedAt
   changed = true
+
 } else if (saysHalfTime) {
   match.status = "HALF TIME"
   match.clockPausedAt = publishedAt
   changed = true
+
+} else if (saysAddedTime) {
+  // Calculate the announced stopping point.
+  const addedMinutes =
+    announcedAddedMinutes !== null
+      ? announcedAddedMinutes
+      : rawExplicitMinute - 90
+
+  match.status = "LIVE"
+  match.minute = 90
+  match.clockBaseMinute = 90
+  match.clockLimitMinute = Math.min(90 + addedMinutes, 100)
+  match.clockStartedAt = publishedAt
+  match.clockPausedAt = null
+  changed = true
+
 } else if (saysSecondHalf || saysKickoff || explicitMinute !== null) {
   match.status = "LIVE"
 
@@ -2452,14 +2516,22 @@ if (saysFullTime) {
     match.minute = explicitMinute
     match.clockBaseMinute = explicitMinute
     match.clockStartedAt = publishedAt
+
+    if (explicitMinute >= 90 && !match.clockLimitMinute) {
+      match.clockLimitMinute = 100
+    }
+
   } else if (saysSecondHalf) {
     match.minute = 45
     match.clockBaseMinute = 45
     match.clockStartedAt = publishedAt
+    match.clockLimitMinute = 100
+
   } else if (saysKickoff && !match.clockStartedAt) {
     match.minute = 0
     match.clockBaseMinute = 0
     match.clockStartedAt = publishedAt
+    match.clockLimitMinute = 100
   }
 
   match.clockPausedAt = null
@@ -3127,10 +3199,15 @@ app.get("/api/matches", (req, res) => {
     (Date.now() - new Date(match.clockStartedAt).getTime()) / 60000
   )
 
-  return {
-    ...match,
-    minute: (match.clockBaseMinute || 0) + Math.max(0, elapsedMinutes),
-  }
+  const calculatedMinute =
+  (match.clockBaseMinute || 0) + Math.max(0, elapsedMinutes)
+
+const clockLimit = match.clockLimitMinute || 100
+
+return {
+  ...match,
+  minute: Math.min(calculatedMinute, clockLimit),
+}
 })
 
 res.json(liveMatches)
@@ -3542,6 +3619,16 @@ const newsSources = [
     category: "general",
   },
   {
+    name: "Sports256media",
+    feedUrl: "https://sports256.com/feed/",
+    category: "general",
+  },
+  {
+    name: "FUFA / Uganda Cranes",
+    feedUrl: "https://fufa.co.ug/feed/",
+    category: "general",
+  },
+  {
     name: "Nim Media UFL",
     feedUrl: "https://nimmedia256.com/category/sport/football/university-league/feed/",
     category: "ufl",
@@ -3557,7 +3644,7 @@ app.get("/api/news", async (req, res) => {
   try {
     const results = await Promise.allSettled(
       newsSources.map(async (source) => {
-        const feed = await fetchUFLFeed()
+        const feed = await parser.parseURL(source.feedUrl)
 
 return feed.items.map((item) => {
   const title = item.title || "Untitled"
@@ -3701,7 +3788,7 @@ app.get("/api/ufl-fixtures", (req, res) => {
 
 app.get("/api/ufl-fixture-updates", requireAdmin, async (req, res) => {
   try {
-    const feed = await fetchUFLFeed()
+    const feed = await parser.parseURL(source.feedUrl)
 
     const updates = feed.items.slice(0, 20).map((item) => ({
       title: item.title || "",

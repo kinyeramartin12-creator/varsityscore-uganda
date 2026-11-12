@@ -307,7 +307,11 @@ useEffect(() => {
 
     {match.goals.map((goal, index) => (
       <p key={goal.id ?? index}>
-        {goal.minute}' — {goal.scorer || "Unknown scorer"}
+        {goal.minute != null
+  ? goal.minute > 90
+    ? `90+${goal.minute - 90}'`
+    : `${goal.minute}'`
+  : 'Not stated'} — {goal.scorer || "Unknown scorer"}
         {goal.team ? ` (${goal.team})` : ""}
         {goal.assist?.trim()
           ? ` · Assist: ${goal.assist}`
@@ -422,7 +426,11 @@ useEffect(() => {
 
     {post.goals.map((goal, index) => (
       <p key={`${post.link}-goal-${index}`}>
-        {goal.minute}' — {goal.scorer}
+        {goal.minute != null
+  ? goal.minute > 90
+    ? `90+${goal.minute - 90}'`
+    : `${goal.minute}'`
+  : 'Not stated'} — {goal.scorer}
         {goal.assist ? ` · Assist: ${goal.assist}` : ""}
       </p>
     ))}
