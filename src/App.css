@@ -4646,3 +4646,95 @@ body,
     font-size: 14px;
   }
 }
+/* Keep the team name visible when scrolling standings horizontally */
+.standings-table th:nth-child(2),
+.standings-table td:nth-child(2) {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 180px;
+  background: #151e2d;
+}
+
+/* Keep the Team heading above the team names */
+.standings-table thead th:nth-child(2) {
+  z-index: 4;
+  background: #1c293b;
+}
+
+/* Add a subtle separation from scrolling columns */
+.standings-table th:nth-child(2),
+.standings-table td:nth-child(2) {
+  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
+}
+.standings-table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.standings-table {
+  min-width: 900px;
+}
+/* Player statistics horizontal scrolling */
+.player-stats-table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.player-stats-table {
+  min-width: 650px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Keep player names visible */
+.player-stats-table th:nth-child(2),
+.player-stats-table td:nth-child(2) {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 160px;
+  background: #151e2d;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Keep Player heading above player names */
+.player-stats-table thead th:nth-child(2) {
+  z-index: 4;
+  background: #1c293b;
+}
+/* Visual indication that standings team names are clickable */
+.standings-team-link:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ff5252 !important;
+}
+
+.standings-team-link:active {
+  background: rgba(255, 82, 82, 0.18) !important;
+}
+
+.standings-team-link:focus-visible {
+  outline: 2px solid #ff5252;
+  outline-offset: 3px;
+}
+/* Home and overall standings team links */
+.standings-team-link {
+  background: transparent !important;
+  color: #f5f7fb !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 4px;
+}
+
+.standings-team-link:hover {
+  background: rgba(255, 82, 82, 0.12) !important;
+  color: #ff5252 !important;
+}
+
+.standings-team-link:active {
+  background: rgba(255, 82, 82, 0.2) !important;
+}

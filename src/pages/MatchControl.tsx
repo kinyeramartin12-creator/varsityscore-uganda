@@ -222,16 +222,18 @@ setCards(selectedMatch.cards ?? [])
   }, [selectedMatchId])
 
   // Send changes to the backend.
-  useEffect(() => {
-    if (!selectedMatchId) {
-      return
-    }
+ // Save changes to the backend after the user finishes editing.
+useEffect(() => {
+  if (!selectedMatchId) {
+    return
+  }
 
-    if (skipNextSave.current) {
-      skipNextSave.current = false
-      return
-    }
+  if (skipNextSave.current) {
+    skipNextSave.current = false
+    return
+  }
 
+  const timeout = window.setTimeout(() => {
     fetch(`/api/matches/${selectedMatchId}`, {
       method: "PUT",
       headers: {
@@ -246,7 +248,7 @@ setCards(selectedMatch.cards ?? [])
         minute: Number(matchMinute),
         events,
         date: matchDate,
-        kickoffTime: kickoffTime,
+        kickoffTime,
         goals,
         cards,
       }),
@@ -259,25 +261,28 @@ setCards(selectedMatch.cards ?? [])
         return response.json()
       })
       .then((data) => {
-        console.log("Match sent to backend:", data)
+        console.log("Match saved successfully:", data)
       })
       .catch((error) => {
         console.error("Backend connection failed:", error)
       })
-        }, [
-    selectedMatchId,
-    homeTeam,
-    awayTeam,
-    homeScore,
-    awayScore,
-    matchStatus,
-    matchMinute,
-    events,
-    matchDate,
-    kickoffTime,
-    goals,
-    cards,
-  ])
+  }, 500)
+
+  return () => window.clearTimeout(timeout)
+}, [
+  selectedMatchId,
+  homeTeam,
+  awayTeam,
+  homeScore,
+  awayScore,
+  matchStatus,
+  matchMinute,
+  events,
+  matchDate,
+  kickoffTime,
+  goals,
+  cards,
+])
 
   // Save match events in browser storage.
   function saveEvents(updatedEvents: string[]) {

@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
 import Standings from './pages/standings'
 import { useState, useEffect } from 'react'
 import './App.css'
@@ -155,7 +155,7 @@ function calculateStandings(matches: Match[]): TeamStanding[] {
 }
 
 function Home() {
-
+const navigate = useNavigate()
     const [matches, setMatches] = useState<Match[]>([])
 
   useEffect(() => {
@@ -329,7 +329,17 @@ function Home() {
                {standings.map((team, index) => (
   <tr key={team.team}>
     <td>{index + 1}</td>
-    <td className="standings-team">{team.team}</td>
+    <td className="standings-team">
+  <button
+    type="button"
+    className="standings-team-link"
+    onClick={() =>
+      navigate(`/teams/${team.team.toLowerCase().replace(/\s+/g, '-')}`)
+    }
+  >
+    {team.team}
+  </button>
+</td>
     <td>{team.played}</td>
     <td>{team.won}</td>
     <td>{team.drawn}</td>

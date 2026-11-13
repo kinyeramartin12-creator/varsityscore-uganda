@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getUFLGroup } from '../utils/uflGroup'
 import { getCanonicalTeamName } from '../utils/teamIdentity'
 
@@ -37,6 +37,20 @@ function getOfficialTeamName(teamName?: string | null): string {
   return getCanonicalTeamName(teamName)
 }
 
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/')
+
+  const rawData = window.atob(base64)
+
+  return Uint8Array.from(
+    Array.from(rawData).map(char => char.charCodeAt(0))
+  )
+}
+
 function LiveScores() {
   const [matches, setMatches] = useState<LiveMatch[]>([])
   const [loading, setLoading] = useState(true)
@@ -44,35 +58,117 @@ function LiveScores() {
   const [lastUpdated, setLastUpdated] = useState('')
   const [resultSearch, setResultSearch] = useState('')
   const [showAllResults, setShowAllResults] = useState(false)
+  
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() =>
+  typeof window !== 'undefined' &&
+  localStorage.getItem('varsityscore-notifications-enabled') === 'true'
+)
+
+const previousMatchesRef = useRef<LiveMatch[] | null>(null)
+
 
   useEffect(() => {
-    async function fetchMatch() {
-      try {
-        const response = await fetch(
-          '/api/matches'
+  async function fetchMatch() {
+    try {
+      const response = await fetch('/api/matches')
+
+      if (!response.ok) {
+        throw new Error('Could not load match data')
+      }
+
+      const data: LiveMatch[] = await response.json()
+
+      const previousMatches = previousMatchesRef.current
+
+      const notify = (title: string, body: string, tag: string) => {
+       if (
+  'Notification' in window &&
+  Notification.permission === 'granted' &&
+  localStorage.getItem('varsityscore-notifications-enabled') === 'true'
+) {
+  new Notification(title, { body, tag })
+}
+      }
+
+      if (previousMatches) {
+        const oldMatches = new Map(
+          previousMatches.map(match => [match.id, match])
         )
 
-        if (!response.ok) {
-          throw new Error('Could not load match data')
-        }
+        data.forEach(match => {
+          const previous = oldMatches.get(match.id)
 
-        const data: LiveMatch[] = await response.json()
-        setMatches(data)
-        setError('')
-        setLastUpdated(new Date().toLocaleTimeString())
-      } catch {
-        setError('Unable to connect to the match server.')
-      } finally {
-        setLoading(false)
+          if (!previous) return
+
+          const matchName = `${match.homeTeam} vs ${match.awayTeam}`
+
+          const oldGoals = new Set(
+            (previous.goals || []).map(goal =>
+              goal.id || `${goal.scorer}-${goal.minute}`
+            )
+          )
+
+          ;(match.goals || []).forEach(goal => {
+            const goalKey =
+              goal.id || `${goal.scorer}-${goal.minute}`
+
+            if (!oldGoals.has(goalKey)) {
+              notify(
+                '⚽ GOAL!',
+                `${goal.scorer} scored for ${goal.team || matchName}`,
+                `goal-${match.id}-${goalKey}`
+              )
+            }
+          })
+
+          const oldStatus = previous.status.trim().toUpperCase()
+          const newStatus = match.status.trim().toUpperCase()
+
+          const wasLive = ['LIVE', 'IN PLAY', 'IN PROGRESS'].includes(oldStatus)
+          const nowLive = ['LIVE', 'IN PLAY', 'IN PROGRESS'].includes(newStatus)
+
+          const wasHalfTime = ['HALF TIME', 'HALFTIME', 'HT'].includes(oldStatus)
+          const nowHalfTime = ['HALF TIME', 'HALFTIME', 'HT'].includes(newStatus)
+
+          const wasFinished = ['FINISHED', 'FULL TIME', 'FULLTIME', 'FT', 'COMPLETED'].includes(oldStatus)
+          const nowFinished = ['FINISHED', 'FULL TIME', 'FULLTIME', 'FT', 'COMPLETED'].includes(newStatus)
+
+          if (!wasLive && nowLive) {
+            notify('🟢 KICK-OFF', matchName, `kickoff-${match.id}`)
+          }
+
+          if (!wasHalfTime && nowHalfTime) {
+            notify('⏸️ HALF-TIME', matchName, `halftime-${match.id}`)
+          }
+
+          if (!wasFinished && nowFinished) {
+            notify(
+              '🏁 FULL-TIME',
+              `${matchName}: ${match.homeScore} - ${match.awayScore}`,
+              `fulltime-${match.id}`
+            )
+          }
+        })
       }
+
+      previousMatchesRef.current = data
+
+      setMatches(data)
+      setError('')
+      setLastUpdated(new Date().toLocaleTimeString())
+    } catch {
+      setError('Unable to connect to the match server.')
+    } finally {
+      setLoading(false)
     }
+  }
 
-    fetchMatch()
+  fetchMatch()
 
-    const interval = setInterval(fetchMatch, 5000)
+  const interval = setInterval(fetchMatch, 5000)
 
-    return () => clearInterval(interval)
-  }, [])
+  return () => clearInterval(interval)
+}, [])
 
   const getStatus = (status: string) =>
     status.trim().toUpperCase().replace(/[_-]+/g, ' ')
@@ -263,6 +359,104 @@ function LiveScores() {
         </p>
 
         <h1>Live Scores</h1>
+
+<button
+  type="button"
+  onClick={async () => {
+    try {
+      if (
+        !('Notification' in window) ||
+        !('serviceWorker' in navigator) ||
+        !('PushManager' in window)
+      ) {
+        alert('Your browser does not support background notifications.')
+        return
+      }
+
+      if (!notificationsEnabled) {
+        let permission = Notification.permission
+
+        if (permission !== 'granted') {
+          permission = await Notification.requestPermission()
+        }
+
+        if (permission !== 'granted') {
+          alert('Please allow notifications in your browser.')
+          return
+        }
+
+        const registration = await navigator.serviceWorker.ready
+
+        const keyResponse = await fetch('/api/push/public-key')
+
+        if (!keyResponse.ok) {
+          throw new Error('Could not retrieve notification settings.')
+        }
+
+        const { publicKey } = await keyResponse.json()
+
+        let subscription = await registration.pushManager.getSubscription()
+
+        if (!subscription) {
+          subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicKey)
+          })
+        }
+
+        const saveResponse = await fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(subscription)
+        })
+
+        if (!saveResponse.ok) {
+          throw new Error('Could not save your notification subscription.')
+        }
+
+        localStorage.setItem('varsityscore-notifications-enabled', 'true')
+        setNotificationsEnabled(true)
+
+        alert('Background notifications enabled!')
+      } else {
+        const registration = await navigator.serviceWorker.ready
+        const subscription = await registration.pushManager.getSubscription()
+
+        if (subscription) {
+          const removeResponse = await fetch('/api/push/unsubscribe', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              endpoint: subscription.endpoint
+            })
+          })
+
+          if (!removeResponse.ok) {
+            throw new Error('Could not remove your notification subscription.')
+          }
+
+          await subscription.unsubscribe()
+        }
+
+        localStorage.setItem('varsityscore-notifications-enabled', 'false')
+        setNotificationsEnabled(false)
+
+        alert('Notifications disabled.')
+      }
+    } catch (error) {
+      console.error('Notification error:', error)
+      alert(error instanceof Error ? error.message : 'Something went wrong.')
+    }
+  }}
+>
+  {notificationsEnabled
+    ? '🔕 Disable Notifications'
+    : '🔔 Enable Notifications'}
+</button>
 
         <p>
           Follow university football matches as they happen.

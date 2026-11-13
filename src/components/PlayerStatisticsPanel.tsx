@@ -127,7 +127,8 @@ export default function PlayerStatisticsPanel() {
   <div className="statistics-card">
           <h3>Top Scorers</h3>
 
-          <table>
+          <div className="player-stats-table-container">
+  <table className="player-stats-table">
             <thead>
              <tr>
   <th>#</th>
@@ -153,7 +154,8 @@ export default function PlayerStatisticsPanel() {
                 </tr>
               )}
             </tbody>
-          </table>
+            </table>
+</div>
         </div>
         )}
 
@@ -161,7 +163,8 @@ export default function PlayerStatisticsPanel() {
   <div className="statistics-card">
           <h3>Top Assist Makers</h3>
 
-          <table>
+          <div className="player-stats-table-container">
+  <table className="player-stats-table">
             <thead>
              <tr>
   <th>#</th>
@@ -187,7 +190,8 @@ export default function PlayerStatisticsPanel() {
                 </tr>
               )}
             </tbody>
-          </table>
+            </table>
+</div>
         </div>
         )}
       </div>

@@ -259,23 +259,27 @@ function Standings() {
                       <tr key={team.team}>
                         <td>{index + 1}</td>
                         <td>
-  <button
-    type="button"
-    onClick={() =>
-      navigate(`/teams/${team.team.toLowerCase().replace(/\s+/g, '-')}`)
-    }
-    style={{
-      background: 'none',
-      border: 'none',
-      padding: 0,
-      color: 'inherit',
-      font: 'inherit',
-      cursor: 'pointer',
-      textAlign: 'left',
-    }}
-  >
-    {team.team}
-  </button>
+ <button
+  type="button"
+  className="standings-team-link"
+  onClick={() =>
+    navigate(`/teams/${team.team.toLowerCase().replace(/\s+/g, '-')}`)
+  }
+  style={{
+    background: 'none',
+    border: 'none',
+    padding: '4px 6px',
+    margin: '-4px -6px',
+    color: 'inherit',
+    font: 'inherit',
+    cursor: 'pointer',
+    textAlign: 'left',
+    borderRadius: '5px',
+    transition: 'background 0.2s ease, color 0.2s ease',
+  }}
+>
+  {team.team}
+</button>
 </td>
                         <td>{team.played}</td>
                         <td>{team.won}</td>

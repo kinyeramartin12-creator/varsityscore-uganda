@@ -7,6 +7,10 @@ import { createWorker } from "tesseract.js"
 import { supabase } from "./database.js"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { createRequire } from "node:module"
+
+const require = createRequire(import.meta.url)
+const webpush = require("web-push")
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -31,6 +35,20 @@ if (fs.existsSync(ENV_FILE)) {
       process.env[key] = value.replace(/^["']|["']$/g, "")
     }
   }
+}
+
+const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY
+const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY
+const VAPID_SUBJECT = process.env.VAPID_SUBJECT
+
+if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY || !VAPID_SUBJECT) {
+  console.warn("Web Push configuration is incomplete.")
+} else {
+  webpush.setVapidDetails(
+    VAPID_SUBJECT,
+    VAPID_PUBLIC_KEY,
+    VAPID_PRIVATE_KEY
+  )
 }
 
 const ADMIN_PASSWORD =
@@ -840,6 +858,172 @@ app.use(cors({
 app.use(express.json())
 
 // ========================================
+// WEB PUSH NOTIFICATION ENDPOINTS
+// ========================================
+
+app.get("/api/push/public-key", (req, res) => {
+  if (!VAPID_PUBLIC_KEY) {
+    return res.status(503).json({
+      message: "Push notifications are not configured."
+    })
+  }
+
+  res.json({ publicKey: VAPID_PUBLIC_KEY })
+})
+
+app.post("/api/push/subscribe", async (req, res) => {
+  try {
+    const subscription = req.body
+
+    if (
+      !subscription?.endpoint ||
+      !subscription?.keys?.p256dh ||
+      !subscription?.keys?.auth ||
+      !subscription.endpoint.startsWith("https://")
+    ) {
+      return res.status(400).json({
+        message: "Invalid push subscription."
+      })
+    }
+
+    const { error } = await supabase
+      .from("push_subscriptions")
+      .upsert(
+        {
+          endpoint: subscription.endpoint,
+          p256dh: subscription.keys.p256dh,
+          auth: subscription.keys.auth
+        },
+        { onConflict: "endpoint" }
+      )
+
+    if (error) throw error
+
+    res.json({ success: true })
+  } catch (error) {
+    console.error("Push subscription error:", error)
+
+    res.status(500).json({
+      message: "Could not save push subscription."
+    })
+  }
+})
+
+app.post("/api/push/unsubscribe", async (req, res) => {
+  try {
+    const endpoint = req.body?.endpoint
+
+    if (!endpoint || !endpoint.startsWith("https://")) {
+      return res.status(400).json({
+        message: "Invalid subscription endpoint."
+      })
+    }
+
+    const { error } = await supabase
+      .from("push_subscriptions")
+      .delete()
+      .eq("endpoint", endpoint)
+
+    if (error) throw error
+
+    res.json({ success: true })
+  } catch (error) {
+    console.error("Push unsubscribe error:", error)
+
+    res.status(500).json({
+      message: "Could not remove push subscription."
+    })
+  }
+})
+
+// ========================================
+// SEND BACKGROUND PUSH NOTIFICATIONS
+// ========================================
+
+async function sendPushNotificationOnce({
+  eventKey,
+  sourcePost,
+  title,
+  body,
+}) {
+  try {
+    // Record this event first to prevent duplicate notifications.
+    const { error: recordError } = await supabase
+      .from("push_notification_events")
+      .insert({
+        event_key: eventKey,
+        source_post: sourcePost,
+      })
+
+    // This official post has already triggered a notification.
+    if (recordError?.code === "23505") {
+      return
+    }
+
+    if (recordError) {
+      throw recordError
+    }
+
+    // Retrieve all subscribed devices.
+    const { data: subscriptions, error } = await supabase
+      .from("push_subscriptions")
+      .select("endpoint, p256dh, auth")
+
+    if (error) throw error
+
+    if (!subscriptions?.length) {
+      console.log("No devices subscribed to push notifications.")
+      return
+    }
+
+    const payload = JSON.stringify({
+      title,
+      body,
+      url: "/",
+      tag: eventKey,
+    })
+
+    // Send the notification to every subscribed device.
+    await Promise.allSettled(
+      subscriptions.map(async (subscription) => {
+        try {
+          await webpush.sendNotification(
+            {
+              endpoint: subscription.endpoint,
+              keys: {
+                p256dh: subscription.p256dh,
+                auth: subscription.auth,
+              },
+            },
+            payload
+          )
+        } catch (pushError) {
+          console.error(
+            "Push notification delivery failed:",
+            pushError.statusCode || pushError.message
+          )
+
+          // Remove subscriptions that are no longer valid.
+          if (
+            pushError.statusCode === 404 ||
+            pushError.statusCode === 410
+          ) {
+            await supabase
+              .from("push_subscriptions")
+              .delete()
+              .eq("endpoint", subscription.endpoint)
+          }
+        }
+      })
+    )
+
+    console.log(`Background notification sent: ${title}`)
+  } catch (error) {
+    console.error("Background push notification error:", error)
+  }
+}
+
+// ========================================
 // VARSITYSCORE PRIVATE ADMIN AUTHENTICATION
 // ========================================
 
@@ -1084,12 +1268,25 @@ const awayTeam = fullTime ? fullTime[4].trim() : ""
 
 const goals = []
 
+const keepTwoNameParts = (name) => {
+  const parts = String(name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+
+  if (parts.length === 0) return ""
+
+  return parts.length > 1
+    ? `${parts[0]} ${parts[parts.length - 1]}`
+    : parts[0]
+}
+
 const goalPattern =
   /⚽\s*([A-Z][A-Za-z.'’-]+(?:\s+[A-Z][A-Za-z.'’-]+){0,3})\s*(?:\(\s*🅿️\s*\)\s*)?(\d{1,3}(?:\s*\+\s*\d{1,2})?)?["'′’]?(?:\s*\(\s*🅿️\s*\))?/g
 const goalMatches = [...text.matchAll(goalPattern)]
 
 goalMatches.forEach((goalMatch, index) => {
-  const scorer = goalMatch[1].trim()
+  const scorer = keepTwoNameParts(goalMatch[1])
 
   const minuteMatch = goalMatch[0].match(
   /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*["'′’]/
@@ -1117,7 +1314,7 @@ const minute = minuteMatch
   )
 
   if (emojiAssist) {
-    assist = emojiAssist[1].trim()
+    assist = keepTwoNameParts(emojiAssist[1])
   } else {
     // Also recognise assists described in normal sentences.
     const naturalAssistPatterns = [
@@ -1131,7 +1328,7 @@ const minute = minuteMatch
       const match = followingText.match(pattern)
 
       if (match) {
-        assist = match[1].trim()
+        assist = keepTwoNameParts(match[1])
         break
       }
     }
@@ -1171,7 +1368,9 @@ const postGoalMinute = postMinuteMatch
       const assistMatch = description.match(pattern)
 
       if (assistMatch) {
-        return assistMatch[1].trim().replace(/[’']+$/, "")
+        return keepTwoNameParts(
+  assistMatch[1].trim().replace(/[’']+$/, "")
+)
       }
     }
 
@@ -1179,7 +1378,9 @@ const postGoalMinute = postMinuteMatch
   }
 
   const addNaturalLanguageGoal = (scorerText, textAfterScorer) => {
-    const scorer = scorerText.trim().replace(/[’']+$/, "")
+    const scorer = keepTwoNameParts(
+  scorerText.trim().replace(/[’']+$/, "")
+)
 
     if (!scorer) return
 
@@ -1320,7 +1521,7 @@ cardPatterns.forEach(({ type, pattern }) => {
   let cardMatch
 
   while ((cardMatch = pattern.exec(text)) !== null) {
-    const player = cardMatch[1].trim()
+    const player = keepTwoNameParts(cardMatch[1])
 
     const context = text.slice(
       Math.max(0, cardMatch.index - 50),
@@ -2618,16 +2819,93 @@ if (uniqueGoals.length !== (match.goals || []).length) {
     }
   }
 
-  if (changed) {
+ if (changed) {
+  let notificationType = ""
+  let notificationTitle = ""
+  let notificationBody = ""
+
+  if (saysFullTime) {
+    notificationType = "full-time"
+    notificationTitle = "🏁 Full Time"
+    notificationBody =
+      `${match.homeTeam} ${match.homeScore}-${match.awayScore} ${match.awayTeam}`
+
+  } else if (saysHalfTime) {
+    notificationType = "half-time"
+    notificationTitle = "⏸️ Half Time"
+    notificationBody =
+      `${match.homeTeam} ${match.homeScore}-${match.awayScore} ${match.awayTeam}`
+
+  } else if (newGoals.length > 0) {
+    notificationType = "goal"
+    notificationTitle = "⚽ GOAL!"
+
+    const goal = newGoals[0]
+
+    notificationBody =
+      `${goal.scorer} scores for ${goal.team || "their team"}! ` +
+      `${match.homeTeam} ${match.homeScore}-${match.awayScore} ${match.awayTeam}`
+
+  } else if (newCards.length > 0) {
+    notificationType = "card"
+    notificationTitle = "🟨 Match Card"
+
+    const card = newCards[0]
+
+    notificationBody =
+      `${card.player} receives a ${card.type} card.`
+
+  } else if (saysKickoff) {
+    notificationType = "kickoff"
+    notificationTitle = "⚽ Kick-off!"
+    notificationBody =
+      `${match.homeTeam} vs ${match.awayTeam} has started.`
+
+  } else if (saysSecondHalf) {
+    notificationType = "second-half"
+    notificationTitle = "⚽ Second Half"
+    notificationBody =
+      `${match.homeTeam} vs ${match.awayTeam} has resumed.`
+  }
+
+  if (notificationType) {
     savedLiveEvents.push({
       matchId: match.id,
       sourcePost: update.sourcePost,
+      eventKey: `${update.sourcePost}:${notificationType}`,
+      title: notificationTitle,
+      body: notificationBody,
     })
   }
 }
+}
 
-if (savedLiveEvents.length > 0) {
-  saveMatches()
+if (savedLiveEvents.length > 0 || savedResults.length > 0) {
+  // Wait until match updates have been saved to Supabase.
+  await saveMatches()
+
+  // Send notifications for live match events.
+  for (const event of savedLiveEvents) {
+    await sendPushNotificationOnce({
+      eventKey: event.eventKey,
+      sourcePost: event.sourcePost,
+      title: event.title,
+      body: event.body,
+    })
+  }
+
+  // Send full-time notifications for completed results.
+  for (const match of savedResults) {
+    if (!match.officialSource) continue
+
+    await sendPushNotificationOnce({
+      eventKey: `${match.officialSource}:full-time`,
+      sourcePost: match.officialSource,
+      title: "🏁 Full Time",
+      body:
+        `${match.homeTeam} ${match.homeScore}-${match.awayScore} ${match.awayTeam}`,
+    })
+  }
 }
 
 res.json({
@@ -3318,7 +3596,7 @@ cards: [],
   })
 })
 
-app.put("/api/matches/:id",requireAdmin, (req, res) => {
+app.put("/api/matches/:id", requireAdmin, async (req, res) => {
   const matchId = req.params.id
   const incomingMatch = req.body
 
@@ -3526,9 +3804,10 @@ app.put("/api/matches/:id",requireAdmin, (req, res) => {
   }
 
   matches[matchIndex] = updatedMatch
-  saveMatches()
 
-  res.json({
+await saveMatches()
+
+res.json({
     message: "Match updated successfully.",
     match: updatedMatch,
   })
