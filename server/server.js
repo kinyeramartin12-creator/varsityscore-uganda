@@ -4,6 +4,7 @@ import Parser from "rss-parser"
 import fs from "node:fs"
 import { randomBytes, timingSafeEqual } from "node:crypto"
 import { createWorker } from "tesseract.js"
+import sharp from "sharp"
 import { supabase } from "./database.js"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -568,10 +569,59 @@ const bestResult = recognitionResults.reduce(
       : best
 )
 
+// Read the two university names separately.
+const metadata = await sharp(imageBuffer).metadata()
+
+const imageWidth = metadata.width
+const imageHeight = metadata.height
+
+// Left university name.
+const leftCrop = await sharp(imageBuffer)
+  .extract({
+    left: Math.round(imageWidth * 0.14),
+    top: Math.round(imageHeight * 0.65),
+    width: Math.round(imageWidth * 0.34),
+    height: Math.round(imageHeight * 0.18)
+  })
+  .resize({ width: 800 })
+  .grayscale()
+  .normalize()
+  .sharpen()
+  .png()
+  .toBuffer()
+
+// Right university name.
+const rightCrop = await sharp(imageBuffer)
+  .extract({
+    left: Math.round(imageWidth * 0.55),
+    top: Math.round(imageHeight * 0.65),
+    width: Math.round(imageWidth * 0.36),
+    height: Math.round(imageHeight * 0.18)
+  })
+  .resize({ width: 800 })
+  .grayscale()
+  .normalize()
+  .sharpen()
+  .png()
+  .toBuffer()
+
+await worker.setParameters({
+  tessedit_pageseg_mode: "6",
+  preserve_interword_spaces: "1"
+})
+
+const leftTeamResult = await worker.recognize(leftCrop)
+const rightTeamResult = await worker.recognize(rightCrop)
+
+const leftTeamOCR = leftTeamResult.data.text.trim()
+const rightTeamOCR = rightTeamResult.data.text.trim()
+
 return {
   imageUrl,
   extractedText: bestResult.text,
   confidence: bestResult.confidence,
+  leftTeamOCR,
+  rightTeamOCR,
   allOCRResults: recognitionResults
 }
 
@@ -581,69 +631,86 @@ await worker.terminate()
 }
 
 
-function extractUFLFixtureDetails(extractedText, publishedAt) {
-  const text = String(extractedText || "")
-    .toLowerCase()
-    .replace(/[^a-z\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-
-  const detectedTeams = []
-
-  const teamClues = {
-    metropolitaninternationaluniversity: [
-      /\bmetropolitan\b/i
-    ],
-    islamicuniversityinuganda: [
-      /\bislamic\b/i
-    ]
+function extractUFLFixtureDetails(
+  extractedText,
+  publishedAt,
+  leftTeamOCR = "",
+  rightTeamOCR = ""
+) {
+  // Remove short OCR noise such as stray symbols and letters.
+  function cleanOCR(value) {
+    return String(value || "")
+      .split(/\r?\n/)
+      .map(line =>
+        line
+          .toLowerCase()
+          .replace(/[^a-z\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+      )
+      .filter(line => line.length > 2)
+      .join(" ")
+      .trim()
   }
 
-  // First identify the two universities using distinctive poster words.
-  for (const [teamKey, clues] of Object.entries(teamClues)) {
-    if (clues.some(pattern => pattern.test(text))) {
-      detectedTeams.push(teamKey)
-    }
+  // Recognise a university using the existing shared aliases.
+  function recogniseOCRTeam(value) {
+    const cleaned = cleanOCR(value)
+
+    if (!cleaned) return null
+
+    return resolveTeamIdentity(cleaned)
   }
 
-  // If this is another fixture, use the shared aliases as a fallback.
-  if (detectedTeams.length !== 2) {
-    detectedTeams.length = 0
+  // Read the left and right university names independently.
+  let home = recogniseOCRTeam(leftTeamOCR)
+  let away = recogniseOCRTeam(rightTeamOCR)
+
+  // Fall back to the complete poster OCR if necessary.
+  if (!home || !away) {
+    const fullText = cleanOCR(extractedText)
+
+    const detectedTeams = []
 
     for (const [teamKey, aliases] of Object.entries(sharedTeamAliases)) {
-      const allAliases = [teamKey, ...aliases]
+      const allNames = [teamKey, ...aliases]
 
-      const matched = allAliases.some(alias => {
-        const words = String(alias)
-          .toLowerCase()
-          .match(/[a-z]+/g) || []
+      const matched = allNames.some(alias => {
+        const name = cleanOCR(alias)
 
-        const distinctiveWords = words.filter(word =>
-          word.length >= 5 &&
-          ![
-            "university",
-            "universities",
-            "international",
-            "college",
-            "institute",
-            "uganda"
-          ].includes(word)
-        )
+        if (!name) return false
 
-        return distinctiveWords.some(word =>
-          new RegExp(`\\b${word}\\b`, "i").test(text)
-        )
+        return new RegExp(
+          `\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+          "i"
+        ).test(fullText)
       })
 
-      if (matched) detectedTeams.push(teamKey)
+      if (matched) {
+        detectedTeams.push({
+          key: teamKey,
+          name: aliases[0] || teamKey
+        })
+      }
+    }
+
+    if (!home && detectedTeams.length === 2) {
+      home = detectedTeams[0]
+    }
+
+    if (!away && detectedTeams.length === 2) {
+      away = detectedTeams[1]
     }
   }
 
-  if (detectedTeams.length !== 2) {
+  if (!home || !away || home.key === away.key) {
     return {
       valid: false,
-      reason: "Exactly two recognised university teams could not be identified.",
-      detectedTeams
+      reason: "Exactly two different recognised university teams could not be identified.",
+      detectedTeams: [
+        home?.key || null,
+        away?.key || null
+      ]
     }
   }
 
@@ -656,8 +723,8 @@ function extractUFLFixtureDetails(extractedText, publishedAt) {
 
   return {
     valid: true,
-    homeTeam: detectedTeams[0],
-    awayTeam: detectedTeams[1],
+    homeTeam: home.key,
+    awayTeam: away.key,
     date,
     kickoffTime: "15:00",
     competition: "Pepsi University Football League",
@@ -692,9 +759,11 @@ async function checkUFLFixturesAutomatically() {
     console.log(poster.extractedText)
 
     const fixture = extractUFLFixtureDetails(
-      poster.extractedText,
-      newPost.publishedAt
-    )
+  poster.extractedText,
+  newPost.publishedAt,
+  poster.leftTeamOCR,
+  poster.rightTeamOCR
+)
 
     if (!fixture.valid) {
       console.log("Fixture not saved:", fixture.reason)
@@ -1288,8 +1357,8 @@ const goalMatches = [...text.matchAll(goalPattern)]
 goalMatches.forEach((goalMatch, index) => {
   const scorer = keepTwoNameParts(goalMatch[1])
 
-  const minuteMatch = goalMatch[0].match(
-  /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*["'′’]/
+ const minuteMatch = goalMatch[0].match(
+  /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*["'′’]?/
 )
 
 const minute = minuteMatch
@@ -1309,9 +1378,9 @@ const minute = minuteMatch
   // First check the official assist emoji format.
   let assist = ""
 
-  const emojiAssist = followingText.match(
-    /🅰️\s*([A-Z][A-Za-z.'’-]+(?:\s+[A-Z][A-Za-z.'’-]+){1,2})/
-  )
+ const emojiAssist = followingText.match(
+  /🅰️[ \t]*([A-Z][A-Za-z.'’-]+(?:[ \t]+[A-Z][A-Za-z.'’-]+))/
+)
 
   if (emojiAssist) {
     assist = keepTwoNameParts(emojiAssist[1])
@@ -2138,9 +2207,14 @@ const enrichedSavedGoals = savedGoals.map((goal) => {
     }
 
     // The post must refer to the same match minute.
-    const minutePattern = new RegExp(
-      `\\b${goal.minute}\\s*["'′’]`
-    )
+    const minutePattern =
+  goal.minute > 90
+    ? new RegExp(
+        `\\b90\\s*\\+\\s*${goal.minute - 90}\\b|\\b${goal.minute}\\s*["'′’]?`
+      )
+    : new RegExp(
+        `\\b${goal.minute}\\s*["'′’]?`
+      )
 
     if (!minutePattern.test(eventText)) continue
 
@@ -2157,9 +2231,9 @@ const enrichedSavedGoals = savedGoals.map((goal) => {
     }
 
     // Also recognise the official assist emoji.
-    const emojiAssist = eventText.match(
-      /🅰️\s*([A-Z][A-Za-z.'’-]+(?:\s+[A-Z][A-Za-z.'’-]+){0,2})/
-    )
+   const emojiAssist = eventText.match(
+  /🅰️[ \t]*([A-Z][A-Za-z.'’-]+(?:[ \t]+[A-Z][A-Za-z.'’-]+))/
+)
 
     if (emojiAssist) {
       return {
@@ -3837,57 +3911,58 @@ let matchesSaveQueue = Promise.resolve()
 function saveMatches() {
   const snapshot = structuredClone(matches)
 
-  matchesSaveQueue = matchesSaveQueue.then(async () => {
-    const rows = snapshot.map((match) => ({
-      id: String(match.id),
-      home_team: match.homeTeam || "",
-      away_team: match.awayTeam || "",
-      match_date: match.date || null,
-      status: match.status || "",
-      record: match,
-    }))
+  const saveOperation = matchesSaveQueue
+    .catch(() => {
+      // Allow a new save attempt even if the previous one failed.
+    })
+    .then(async () => {
+      const rows = snapshot.map((match) => ({
+        id: String(match.id),
+        home_team: match.homeTeam || "",
+        away_team: match.awayTeam || "",
+        match_date: match.date || null,
+        status: match.status || "",
+        record: match,
+      }))
 
-    const { data: existingRows, error: readError } = await supabase
-      .from("matches")
-      .select("id")
+      const { data: existingRows, error: readError } =
+        await supabase
+          .from("matches")
+          .select("id")
 
-    if (readError) {
-      throw readError
-    }
+      if (readError) throw readError
 
-    const currentIds = new Set(rows.map((row) => row.id))
+      const currentIds = new Set(rows.map((row) => row.id))
 
-    const staleIds = existingRows
-      .map((row) => row.id)
-      .filter((id) => !currentIds.has(id))
+      const staleIds = existingRows
+        .map((row) => row.id)
+        .filter((id) => !currentIds.has(id))
 
-    if (staleIds.length > 0) {
-      const { error: deleteError } = await supabase
-        .from("matches")
-        .delete()
-        .in("id", staleIds)
+      if (staleIds.length > 0) {
+        const { error: deleteError } = await supabase
+          .from("matches")
+          .delete()
+          .in("id", staleIds)
 
-      if (deleteError) {
-        throw deleteError
+        if (deleteError) throw deleteError
       }
-    }
 
-    if (rows.length > 0) {
-      const { error: saveError } = await supabase
-        .from("matches")
-        .upsert(rows, { onConflict: "id" })
+      if (rows.length > 0) {
+        const { error: saveError } = await supabase
+          .from("matches")
+          .upsert(rows, { onConflict: "id" })
 
-      if (saveError) {
-        throw saveError
+        if (saveError) throw saveError
       }
-    }
 
-    console.log(`Saved ${rows.length} matches to Supabase.`)
-  }).catch((error) => {
+      console.log(`Saved ${rows.length} matches to Supabase.`)
+    })
+
+  matchesSaveQueue = saveOperation.catch((error) => {
     console.error("Supabase matches save failed:", error)
   })
 
-  return matchesSaveQueue
+  return saveOperation
 }
 
 
@@ -4103,78 +4178,47 @@ debugKeys: Object.keys(item),
 })
 
 app.get("/api/ufl-fixture-ocr", requireAdmin, async (req, res) => {
-  let worker
-
   try {
-    
-const feed = await fetchUFLFeed()
+    const feed = await fetchUFLFeed()
 
-const matchDayPost = feed.items.find((item) =>
-  /MATCH DAY/i.test(item.title || "")
-)
-
-if (!matchDayPost) {
-  return res.status(404).json({
-    error: "No MATCH DAY post was found."
-  })
-}
-
-const statusId = matchDayPost.link.match(/status\/(\d+)/)?.[1]
-
-if (!statusId) {
-  throw new Error("Unable to identify the UFL post.")
-}
-
-const tweetResponse = await fetch(
-  `https://api.fxtwitter.com/uflug/status/${statusId}`
-)
-
-if (!tweetResponse.ok) {
-  const errorDetails = await tweetResponse.text()
-
-  throw new Error(
-    `FxTwitter poster request failed: ${tweetResponse.status} ${tweetResponse.statusText}. ${errorDetails.slice(0, 300)}`
-  )
-}
-
-const tweetData = await tweetResponse.json()
-
-const imageUrl =
-  tweetData.tweet?.media?.photos?.[0]?.url ||
-  tweetData.tweet?.media?.all?.find(
-    (media) => media.type === "photo"
-  )?.url
-
-if (!imageUrl) {
-  return res.status(404).json({
-    error: "No poster image was found in the UFL post."
-  })
-}
-
-    const imageResponse = await fetch(imageUrl)
-
-    if (!imageResponse.ok) {
-      throw new Error("Unable to download the UFL poster.")
-    }
-
-    const imageBuffer = Buffer.from(
-      await imageResponse.arrayBuffer()
+    const matchDayPost = feed.items.find((item) =>
+      /MATCH DAY/i.test(item.title || "")
     )
 
-    worker = await createWorker("eng")
+    if (!matchDayPost) {
+      return res.status(404).json({
+        error: "No MATCH DAY post was found."
+      })
+    }
 
-    const result = await worker.recognize(imageBuffer)
+    const statusId = matchDayPost.link.match(/status\/(\d+)/)?.[1]
+
+    if (!statusId) {
+      throw new Error("Unable to identify the UFL post.")
+    }
+
+    const poster = await readUFLMatchDayPoster(statusId)
 
     res.json({
       postTitle: matchDayPost.title,
       postDate: matchDayPost.isoDate || matchDayPost.pubDate || "",
       postLink: matchDayPost.link || "",
-      imageUrl,
-      extractedText: result.data.text,
-      extractedFixture: extractUFLFixtureDetails(
-  result.data.text,
-  matchDayPost.isoDate || matchDayPost.pubDate
-)
+      imageUrl: poster.imageUrl,
+
+      extractedText: poster.extractedText,
+      confidence: poster.confidence,
+
+      leftTeamOCR: poster.leftTeamOCR,
+      rightTeamOCR: poster.rightTeamOCR,
+
+     extractedFixture: extractUFLFixtureDetails(
+  poster.extractedText,
+  matchDayPost.isoDate || matchDayPost.pubDate,
+  poster.leftTeamOCR,
+  poster.rightTeamOCR
+),
+
+      allOCRResults: poster.allOCRResults
     })
 
   } catch (error) {
@@ -4184,11 +4228,6 @@ if (!imageUrl) {
       error: "Unable to read the UFL poster.",
       details: error.message
     })
-
-  } finally {
-    if (worker) {
-      await worker.terminate()
-    }
   }
 })
 
