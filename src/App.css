@@ -4646,15 +4646,7 @@ body,
     font-size: 14px;
   }
 }
-/* Keep the team name visible when scrolling standings horizontally */
-.standings-table th:nth-child(2),
-.standings-table td:nth-child(2) {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  min-width: 180px;
-  background: #151e2d;
-}
+
 
 /* Keep the Team heading above the team names */
 .standings-table thead th:nth-child(2) {
@@ -4662,17 +4654,7 @@ body,
   background: #1c293b;
 }
 
-/* Add a subtle separation from scrolling columns */
-.standings-table th:nth-child(2),
-.standings-table td:nth-child(2) {
-  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
-}
-.standings-table-container {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
+
 
 .standings-table {
   min-width: 900px;
