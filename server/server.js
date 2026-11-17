@@ -1794,17 +1794,8 @@ for (const update of uniqueResults) {
   const homeTeam = update.score.homeTeam
   const awayTeam = update.score.awayTeam
 
-  const sameTeam = (firstTeam, secondTeam) => {
-  const firstAliases = getTeamAliases(firstTeam)
-    .map(normalizeTeamName)
-
-  const secondAliases = getTeamAliases(secondTeam)
-    .map(normalizeTeamName)
-
-  return secondAliases.some((alias) =>
-    firstAliases.includes(alias)
-  )
-}
+  const sameTeam = (firstTeam, secondTeam) =>
+  sameUniversity(firstTeam, secondTeam)
 
 const sameResultFixture = (match) => {
   const directOrder =
@@ -2700,17 +2691,22 @@ const minuteMatch = lowerText.match(
   /(\d{1,3})(?:\s*\+\s*(\d{1,2}))?\s*['′’"]/
 )
 
-// Keep the original minute, including minutes such as 90+3.
-const rawExplicitMinute = minuteMatch
-  ? Number(minuteMatch[1]) + Number(minuteMatch[2] || 0)
+const explicitMinuteBase = minuteMatch
+  ? Number(minuteMatch[1])
   : null
 
-// Never allow the clock beyond 100.
+const explicitAddedMinutes = minuteMatch
+  ? Number(minuteMatch[2] || 0)
+  : 0
+
+const rawExplicitMinute = minuteMatch
+  ? explicitMinuteBase + explicitAddedMinutes
+  : null
+
 const explicitMinute =
   rawExplicitMinute !== null
     ? Math.min(rawExplicitMinute, 100)
     : null
-
 // Recognise written added-time announcements.
 const addedTimeNumber =
   "(one|two|three|four|five|six|seven|eight|nine|ten|\\d+)"
@@ -2744,6 +2740,7 @@ const announcedAddedMinutes = addedTimeMatch
 
 const saysAddedTime =
   announcedAddedMinutes !== null ||
+  explicitAddedMinutes > 0 ||
   (rawExplicitMinute !== null && rawExplicitMinute > 90)
 
 const saysKickoff =
@@ -2770,19 +2767,32 @@ if (saysFullTime) {
   changed = true
 
 } else if (saysAddedTime) {
-  // Calculate the announced stopping point.
+  // Determine whether this is first-half or second-half added time.
+  const isFirstHalfAddedTime =
+    explicitAddedMinutes > 0
+      ? explicitMinuteBase <= 45
+      : (Number(match.minute) || 0) < 45
+
   const addedMinutes =
-    announcedAddedMinutes !== null
-      ? announcedAddedMinutes
-      : rawExplicitMinute - 90
+    explicitAddedMinutes > 0
+      ? explicitAddedMinutes
+      : announcedAddedMinutes !== null
+        ? announcedAddedMinutes
+        : rawExplicitMinute - 90
+
+  const addedTimeBase = isFirstHalfAddedTime ? 45 : 90
 
   match.status = "LIVE"
-  match.minute = 90
-  match.clockBaseMinute = 90
-  match.clockLimitMinute = Math.min(90 + addedMinutes, 100)
+  match.minute = addedTimeBase
+  match.clockBaseMinute = addedTimeBase
+  match.clockLimitMinute = Math.min(
+    addedTimeBase + addedMinutes,
+    100
+  )
   match.clockStartedAt = publishedAt
   match.clockPausedAt = null
   changed = true
+
 
 } else if (saysSecondHalf || saysKickoff || explicitMinute !== null) {
   match.status = "LIVE"
@@ -2954,7 +2964,90 @@ if (uniqueGoals.length !== (match.goals || []).length) {
 }
 }
 
-if (savedLiveEvents.length > 0 || savedResults.length > 0) {
+// Automatically mark matching official fixtures as FINISHED.
+if (savedResults.length > 0) {
+  const completedFixtures = readFixtures()
+  let fixturesChanged = false
+
+  const sameTeam = (firstTeam, secondTeam) => {
+    const firstIdentity = resolveTeamIdentity(firstTeam)
+    const secondIdentity = resolveTeamIdentity(secondTeam)
+
+    if (firstIdentity && secondIdentity) {
+      return firstIdentity.key === secondIdentity.key
+    }
+
+    return (
+      normalizeTeamName(firstTeam) ===
+      normalizeTeamName(secondTeam)
+    )
+  }
+
+  for (const result of savedResults) {
+    const resultDate = String(result.date || "").slice(0, 10)
+
+    let fixtureIndex = completedFixtures.findIndex(
+      (fixture) =>
+        result.fixtureId &&
+        String(fixture.id) === String(result.fixtureId)
+    )
+
+    if (fixtureIndex === -1) {
+      fixtureIndex = completedFixtures.findIndex((fixture) => {
+        const fixtureDate = String(fixture.date || "").slice(0, 10)
+
+        const sameDate =
+          !resultDate ||
+          !fixtureDate ||
+          resultDate === fixtureDate
+
+        const directOrder =
+          sameTeam(result.homeTeam, fixture.homeTeam) &&
+          sameTeam(result.awayTeam, fixture.awayTeam)
+
+        const reversedOrder =
+          sameTeam(result.homeTeam, fixture.awayTeam) &&
+          sameTeam(result.awayTeam, fixture.homeTeam)
+
+        return sameDate && (directOrder || reversedOrder)
+      })
+    }
+
+    if (fixtureIndex === -1) continue
+
+    const fixture = completedFixtures[fixtureIndex]
+
+    const directOrder =
+      sameTeam(result.homeTeam, fixture.homeTeam)
+
+    completedFixtures[fixtureIndex] = {
+      ...fixture,
+      status: "FINISHED",
+      homeScore: directOrder
+        ? result.homeScore
+        : result.awayScore,
+      awayScore: directOrder
+        ? result.awayScore
+        : result.homeScore,
+    }
+
+    fixturesChanged = true
+
+    console.log(
+      `Fixture automatically completed: ${fixture.homeTeam} vs ${fixture.awayTeam}`
+    )
+  }
+
+  if (fixturesChanged) {
+    await saveFixtures(completedFixtures)
+  }
+}
+
+if (
+  savedLiveEvents.length > 0 ||
+  savedResults.length > 0 ||
+  importedFixture
+) {
   // Wait until match updates have been saved to Supabase.
   await saveMatches()
 
@@ -4106,28 +4199,9 @@ app.get("/api/ufl-fixtures", (req, res) => {
   try {
     const fixtures = readFixtures()
 
-    const now = Date.now()
-
-    const upcomingFixtures = fixtures.filter((fixture) => {
-      const date = String(fixture.date || "").slice(0, 10)
-      const time = String(fixture.kickoffTime || "").trim()
-
-      // Keep fixtures without a reliable scheduled time visible.
-      if (
-        !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-        !/^\d{2}:\d{2}$/.test(time)
-      ) {
-        return true
-      }
-
-      // Uganda uses East Africa Time (UTC+3).
-      const kickoff = new Date(
-        `${date}T${time}:00+03:00`
-      ).getTime()
-
-      // Hide the fixture once its scheduled kickoff time arrives.
-      return !Number.isFinite(kickoff) || now < kickoff
-    })
+   const upcomingFixtures = fixtures.filter((fixture) => {
+  return String(fixture.status || "SCHEDULED").toUpperCase() !== "FINISHED"
+})
 
     res.json(upcomingFixtures)
 
@@ -4136,6 +4210,85 @@ app.get("/api/ufl-fixtures", (req, res) => {
 
     res.status(500).json({
       error: "Unable to load UFL fixtures"
+    })
+  }
+})
+
+// Permanently remove an official UFL fixture.
+app.delete("/api/ufl-fixtures/:id", requireAdmin, async (req, res) => {
+  try {
+    const fixtureId = String(req.params.id)
+
+    // Confirm that the fixture exists in the current cache.
+    const fixture = fixturesCache.find(
+      (item) => String(item.id) === fixtureId
+    )
+
+    if (!fixture) {
+      return res.status(404).json({
+        message: "Fixture not found."
+      })
+    }
+
+    // Delete the fixture from Supabase.
+    const { error: fixtureDeleteError } = await supabase
+      .from("fixtures")
+      .delete()
+      .eq("id", fixtureId)
+
+    if (fixtureDeleteError) {
+      throw fixtureDeleteError
+    }
+
+    // Remove it from the server's in-memory fixture cache.
+    fixturesCache = fixturesCache.filter(
+      (item) => String(item.id) !== fixtureId
+    )
+
+    // Remove only its linked scheduled match.
+    // Never delete completed matches or verified statistics.
+    const remainingMatches = matches.filter((match) => {
+      const linkedFixture =
+        String(match.fixtureId || "") === fixtureId ||
+        String(match.id || "") === fixtureId
+
+      const isScheduled =
+        String(match.status || "").toUpperCase() === "SCHEDULED"
+
+      const isOfficialFixture =
+        match.sourceType === "OFFICIAL_UFL"
+
+      return !(
+        linkedFixture &&
+        isScheduled &&
+        isOfficialFixture
+      )
+    })
+
+    const matchesChanged =
+      remainingMatches.length !== matches.length
+
+    if (matchesChanged) {
+      matches.splice(
+        0,
+        matches.length,
+        ...remainingMatches
+      )
+
+      await saveMatches()
+    }
+
+    res.json({
+      message: "Fixture permanently removed.",
+      fixtures: readFixtures(),
+      matches
+    })
+
+  } catch (error) {
+    console.error("UFL fixture deletion failed:", error)
+
+    res.status(500).json({
+      message: "Unable to permanently remove fixture."
     })
   }
 })

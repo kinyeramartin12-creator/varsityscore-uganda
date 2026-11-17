@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
+﻿import { Routes, Route, Outlet, useNavigate } from 'react-router-dom'
 import Standings from './pages/standings'
 import { useState, useEffect } from 'react'
 import './App.css'
@@ -43,6 +43,26 @@ type TeamStanding = {
 }
 
 function MatchCard({ match }: { match: Match }) {
+  const status = (match.status || '').trim().toUpperCase()
+
+  const isFinished = ['FINISHED', 'FULL TIME', 'FULLTIME', 'FT', 'COMPLETED'].includes(status)
+  const isLive = ['LIVE', '1ST HALF', '2ND HALF', 'HALF TIME', 'HT'].includes(status)
+  const isUpcoming = ['SCHEDULED', 'NOT STARTED', 'UPCOMING'].includes(status)
+
+  const displayStatus = isFinished
+    ? 'FULL TIME'
+    : isLive
+      ? status
+      : isUpcoming
+        ? 'SCHEDULED'
+        : status
+
+  const statusClass = isFinished
+    ? 'finished'
+    : isLive
+      ? 'live'
+      : 'upcoming'
+
   return (
     <article className="match-card">
       <div className="match-date">{match.date}</div>
@@ -54,21 +74,21 @@ function MatchCard({ match }: { match: Match }) {
       <div className="match-teams">
         <div className="team">
           <span className="team-name">
-  {getCanonicalTeamName(match.homeTeam)}
-</span>
+            {getCanonicalTeamName(match.homeTeam)}
+          </span>
           <strong>{match.homeScore}</strong>
         </div>
 
         <div className="team">
           <span className="team-name">
-  {getCanonicalTeamName(match.awayTeam)}
-</span>
+            {getCanonicalTeamName(match.awayTeam)}
+          </span>
           <strong>{match.awayScore}</strong>
         </div>
       </div>
 
-      <div className="match-status finished">
-        FULL TIME
+      <div className={`match-status ${statusClass}`}>
+        {displayStatus}
       </div>
     </article>
   )
@@ -452,3 +472,4 @@ function App() {
 }
 
 export default App
+
