@@ -1329,7 +1329,7 @@ const normalizedText = text
   .trim()
 
   const fullTime = text.match(
-    /FULL-TIME\s*\|?\s*@?(.+?)\s+(\d+)\s*[-–]\s*(\d+)\s+@?([^\s⚽|]+)/i
+    /FULL[\s-]*TIME\s*\|?\s*@?(.+?)\s+(\d+)\s*[-–]\s*(\d+)\s+@?([^\s⚽|]+)/i
   )
 
   const homeTeam = fullTime ? fullTime[1].trim() : ""
@@ -2753,7 +2753,7 @@ const saysHalfTime =
   /\b(half[\s-]?time|half time break|interval)\b/i.test(lowerText)
 
 const saysFullTime =
-  /\b(full[\s-]?time|game over|match over|final whistle)\b/i.test(lowerText)
+  /\b(full[\s-]*time|game over|match over|final whistle)\b/i.test(lowerText)
 
 if (saysFullTime) {
   match.status = "FINISHED"
