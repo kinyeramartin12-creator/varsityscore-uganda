@@ -215,9 +215,6 @@ function Standings() {
 
         <p>
           All 31 teams are listed in their original groups.
-          Tables refresh automatically every five seconds.
-          Only completed matches between teams in the same group
-          count toward standings.
         </p>
 
         {loading ? (
@@ -237,6 +234,14 @@ function Standings() {
               <h2>{group.name}</h2>
               <p>{group.region}</p>
 
+
+<div className="table-scroll-hint">
+  <div className="swipe-gesture">
+    <span>👆</span>
+    <span>↔</span>
+  </div>
+  <span>Swipe to the left on the tables to explore more statistics</span>
+</div>
               <div className="standings-table-container">
                 <table className="standings-table">
                   <thead>

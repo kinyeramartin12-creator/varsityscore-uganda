@@ -284,7 +284,6 @@ return ( <main className="page-container">
 </div>
 
     <p>
-      Fixtures and results refresh automatically every 30 seconds.
       Select a match to view its details.
       {teamPairings.length > 0 && (
         <> UFL pairings are available for {teamPairings.length} teams.</>

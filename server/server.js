@@ -2757,7 +2757,7 @@ const saysFullTime =
 
 if (saysFullTime) {
   match.status = "FINISHED"
-  match.minute = Math.min(Number(match.minute) || 0, 100)
+  match.minute = Math.max(90, Math.min(Number(match.minute) || 0, 100))
   match.clockPausedAt = publishedAt
   changed = true
 
@@ -3632,6 +3632,14 @@ app.get("/api/match", (req, res) => {
 
 app.get("/api/matches", (req, res) => {
   const liveMatches = matches.map((match) => {
+
+    if (match.status === "FINISHED") {
+  return {
+    ...match,
+    minute: 90,
+  }
+}
+
   if (
     match.status !== "LIVE" ||
     !match.clockStartedAt ||

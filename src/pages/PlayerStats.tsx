@@ -21,7 +21,7 @@ export default function PlayerStats() {
           </p>
         </section>
 
-        <PlayerStatisticsPanel />
+<PlayerStatisticsPanel />
 
       </main>
     </div>

@@ -1166,11 +1166,32 @@ async function removeFixture(fixture: Fixture) {
                 assist: assist.trim(),
               }
 
-              setGoals(currentGoals =>
-                currentGoals.map(item =>
-                  item.id === goal.id ? updatedGoal : item
-                )
-              )
+             setGoals(currentGoals =>
+  currentGoals.map(item =>
+    item.id === goal.id ? updatedGoal : item
+  )
+)
+
+// Update the event associated with this goal.
+const oldGoalEvent =
+  `${goal.minute}' — Goal for ${goal.team}: ${goal.scorer} (${goal.minute}')`
+
+const newGoalEvent =
+  `${minute}' — Goal for ${selectedTeam}: ${scorer.trim()} (${minute}')`
+
+const matchingEventIndex = events.findIndex(
+  event => event === oldGoalEvent
+)
+
+const updatedEvents = [...events]
+
+if (matchingEventIndex !== -1) {
+  updatedEvents[matchingEventIndex] = newGoalEvent
+} else {
+  updatedEvents.push(newGoalEvent)
+}
+
+saveEvents(updatedEvents)
             }}
           >
             Edit

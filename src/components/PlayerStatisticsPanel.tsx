@@ -127,6 +127,14 @@ export default function PlayerStatisticsPanel() {
   <div className="statistics-card">
           <h3>Top Scorers</h3>
 
+<div className="table-scroll-hint">
+  <div className="swipe-gesture">
+    <span>👆</span>
+    <span>↔</span>
+  </div>
+  <span>Swipe to the left on the stats table to explore more statistics</span>
+</div>
+
           <div className="player-stats-table-container">
   <table className="player-stats-table">
             <thead>
@@ -162,6 +170,14 @@ export default function PlayerStatisticsPanel() {
         {activeTab === 'assists' && (
   <div className="statistics-card">
           <h3>Top Assist Makers</h3>
+
+<div className="table-scroll-hint">
+  <div className="swipe-gesture">
+    <span>👆</span>
+    <span>↔</span>
+  </div>
+  <span>Swipe to the left on the stats table to explore more statistics</span>
+</div>
 
           <div className="player-stats-table-container">
   <table className="player-stats-table">

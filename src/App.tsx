@@ -6,6 +6,7 @@ import PlayerStats from "./pages/PlayerStats"
 import PageNavigation from './components/pagenavigation'
 import { uflGroups } from './data/uflGroups'
 import { getCanonicalTeamName } from './utils/teamIdentity'
+import VisitorGuide from './components/VisitorGuide'
 
 type Match = {
 id: string | number
@@ -328,8 +329,16 @@ const navigate = useNavigate()
             </div>
           </div>
 
-          <div className="table-wrapper">
-            <table className="standings-table">
+          <div className="table-scroll-hint">
+  <div className="swipe-gesture">
+    <span>👆</span>
+    <span>↔</span>
+  </div>
+  <span>Swipe to the left on the table to explore more statistics</span>
+</div>
+
+<div className="standings-table-container">
+  <table className="standings-table">
             <thead>
   <tr>
     <th>POS</th>
@@ -402,6 +411,8 @@ function SiteLayout() {
   return (
     <div className="site-shell">
       <PageNavigation />
+
+      <VisitorGuide />
 
       <div className="site-content">
         <Outlet />

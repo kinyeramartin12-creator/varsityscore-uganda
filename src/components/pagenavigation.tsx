@@ -26,6 +26,7 @@ function PageNavigation() {
             key={link.to}
             to={link.to}
             end={link.end}
+            data-tour={link.to === '/' ? 'home' : link.to.replace('/', '')}
             className={({ isActive }) =>
               isActive ? 'site-nav-link active' : 'site-nav-link'
             }
@@ -34,6 +35,22 @@ function PageNavigation() {
           </NavLink>
         ))}
       </nav>
+
+      <div className="header-action-buttons">
+        <button
+          className="visitor-guide-button"
+          onClick={() => window.dispatchEvent(new Event('open-visitor-guide'))}
+        >
+          ? How to Use
+        </button>
+
+        <button
+          className="install-app-header-button"
+          onClick={() => window.dispatchEvent(new Event('open-install-guide'))}
+        >
+          ↓ Install App
+        </button>
+      </div>
 
       <span className="site-competition-label">
         UGANDA UNIVERSITY FOOTBALL
