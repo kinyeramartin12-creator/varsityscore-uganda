@@ -5496,3 +5496,16 @@ body,
   overflow-wrap: anywhere;
   z-index: 2;
 }
+
+/* Centre TEAM heading */
+.standings-table th:nth-child(2) {
+  text-align: center;
+}
+
+/* Give statistics a little breathing room */
+.standings-table th:nth-child(n+3),
+.standings-table td:nth-child(n+3) {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 13px;
+}
