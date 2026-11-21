@@ -5471,3 +5471,28 @@ body,
   overflow-wrap: anywhere;
   z-index: 2;
 }
+
+/* Compact POS column */
+.standings-table th:first-child,
+.standings-table td:first-child {
+  width: 38px;
+  min-width: 38px;
+  max-width: 38px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* Compact TEAM column */
+.standings-table th:nth-child(2),
+.standings-table td:nth-child(2) {
+  position: sticky;
+  left: 0;
+  width: 125px;
+  min-width: 125px;
+  max-width: 125px;
+  padding-left: 5px;
+  padding-right: 5px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  z-index: 2;
+}
