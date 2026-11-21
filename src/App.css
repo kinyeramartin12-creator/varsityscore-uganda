@@ -5457,3 +5457,17 @@ body,
 .standings-table tbody tr:hover td:nth-child(2) {
   background: #202e42;
 }
+
+.standings-table th:nth-child(2),
+.standings-table td:nth-child(2) {
+  position: sticky;
+  left: 0;
+  width: 125px;
+  min-width: 125px;
+  max-width: 125px;
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  z-index: 2;
+}
