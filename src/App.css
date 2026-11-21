@@ -5465,8 +5465,8 @@ body,
   width: 125px;
   min-width: 125px;
   max-width: 125px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 6px;
   white-space: normal;
   overflow-wrap: anywhere;
   z-index: 2;
